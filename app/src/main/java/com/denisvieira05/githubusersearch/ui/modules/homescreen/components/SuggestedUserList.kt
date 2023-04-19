@@ -1,4 +1,4 @@
-package com.denisvieira05.githubusersearch.ui.screens.home.components
+package com.denisvieira05.githubusersearch.ui.modules.homescreen.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -11,13 +11,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.denisvieira05.githubusersearch.domain.model.SuggestedUser
 
 @Composable
-fun SuggestedUserList() {
+fun SuggestedUserList(suggestedUsers: List<SuggestedUser>) {
     Column {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceAround,
+            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
@@ -37,9 +38,11 @@ fun SuggestedUserList() {
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            val list = (0..10).map { it.toString() }
-            items(count = list.size) {
-                UserSuggestedItem("userTest0${list[it]}")
+            items(count = suggestedUsers.size) {
+                UserSuggestedItem(
+                    userName = suggestedUsers[it].userName,
+                    avatarUrl = suggestedUsers[it].avatarUrl
+                )
             }
         }
     }

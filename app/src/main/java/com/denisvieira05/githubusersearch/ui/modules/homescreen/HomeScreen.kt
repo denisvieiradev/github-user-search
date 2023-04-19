@@ -1,4 +1,4 @@
-package com.denisvieira05.githubusersearch.ui.screens.userdetail
+package com.denisvieira05.githubusersearch.ui.modules.homescreen
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
@@ -17,17 +17,18 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.denisvieira05.githubusersearch.R
+import com.denisvieira05.githubusersearch.ui.components.CircularProgressLoading
 import com.denisvieira05.githubusersearch.ui.components.SearchTextField
-import com.denisvieira05.githubusersearch.ui.screens.home.components.SuggestedUserList
+import com.denisvieira05.githubusersearch.ui.modules.homescreen.components.SuggestedUserList
 import com.denisvieira05.githubusersearch.ui.theme.VeryLightGrey
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UserDetailScreen(
+fun HomeScreen(
     modifier: Modifier = Modifier,
     navController: NavController,
-    viewModel: UserDetailViewModel = hiltViewModel(),
+    viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val uiState by remember { viewModel.uiState }
     val coroutineScope = rememberCoroutineScope()
@@ -38,6 +39,10 @@ fun UserDetailScreen(
     val isLoading by remember {
         derivedStateOf { uiState.isLoading }
     }
+
+    LaunchedEffect(key1 = Unit, block = {
+        viewModel.fetchSuggestedUsers()
+    })
 
     Scaffold(
         modifier = Modifier
@@ -81,14 +86,28 @@ fun UserDetailScreen(
             Spacer(modifier = Modifier.height(8.dp))
             Button(
                 modifier = Modifier.padding(vertical = 18.dp),
-                onClick = {  }
+                onClick = { }
             ) {
                 Text(
                     text = "BUSCAR",
                     fontSize = 16.sp
                 )
             }
-            SuggestedUserList()
+
+            if (isLoading) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(50.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressLoading(size = 70.dp)
+                }
+            }
+
+            if (suggestedUsers != null) {
+                SuggestedUserList(suggestedUsers!!)
+            }
         }
     }
 }

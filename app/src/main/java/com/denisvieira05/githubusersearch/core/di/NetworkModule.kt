@@ -1,6 +1,6 @@
 package com.denisvieira05.githubusersearch.core.di
 
-import com.denisvieira05.githubusersearch.data.remote.retrofit.ApiRepository
+import com.denisvieira05.githubusersearch.data.remote.user.UserAPI
 import com.denisvieira05.githubusersearch.data.remote.retrofit.LoggedInterceptor
 import dagger.Module
 import dagger.Provides
@@ -31,12 +31,12 @@ object NetworkModule {
     fun provideApiRepository(
         okHttpClient: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory
-    ): ApiRepository {
+    ): UserAPI {
         return Retrofit.Builder()
             .baseUrl("https://api.github.com/")
             .addConverterFactory(gsonConverterFactory)
             .client(okHttpClient)
             .build()
-            .create(ApiRepository::class.java)
+            .create(UserAPI::class.java)
     }
 }

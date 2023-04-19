@@ -1,4 +1,4 @@
-package com.denisvieira05.githubusersearch.data.remote.retrofit.responses
+package com.denisvieira05.githubusersearch.data.remote.user.model
 
 import com.google.gson.annotations.SerializedName
 

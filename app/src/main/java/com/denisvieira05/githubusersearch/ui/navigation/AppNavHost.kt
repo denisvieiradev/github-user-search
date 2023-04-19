@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.denisvieira05.githubusersearch.ui.navigation.ScreenRoutesBuilder.HOME_SCREEN_ROUTE
-import com.denisvieira05.githubusersearch.ui.screens.home.HomeScreen
+import com.denisvieira05.githubusersearch.ui.modules.homescreen.HomeScreen
 
 @Composable
 fun AppNavHost(

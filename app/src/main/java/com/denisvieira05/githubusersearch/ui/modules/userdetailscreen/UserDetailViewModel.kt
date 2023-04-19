@@ -1,4 +1,4 @@
-package com.denisvieira05.githubusersearch.ui.screens.userdetail
+package com.denisvieira05.githubusersearch.ui.modules.userdetailscreen
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
