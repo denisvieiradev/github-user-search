@@ -39,7 +39,7 @@ fun SuggestedUserList() {
         ) {
             val list = (0..10).map { it.toString() }
             items(count = list.size) {
-                UserSuggestedItem("User ${list[it]}")
+                UserSuggestedItem("userTest0${list[it]}")
             }
         }
     }
