@@ -13,5 +13,5 @@
     <string name="user_detail_repositories_title">Repositories</string>
     <string name="alt_sad_emoji">Sad emoji</string>
     <string name="repositories_empty_list">There are no repositories for this user yet</string>
-    <string name="repositories_list_title">Repositories</string>
+    <string name="share_user_profile_text">Hi, I found a great developer for you to meet on Github \n Click the link: https://github.com/%s/</string>
 </resources>

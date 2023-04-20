@@ -19,6 +19,7 @@ fun LazyListScope.UserRepositoriesList(
     repositories: List<Repository>?,
     onPressItem: (repositoryUrl: String) -> Unit
 ) {
+    if (repositories != null && repositories.isNotEmpty()) {
     item {
         Spacer(
             modifier = Modifier.height(
@@ -36,8 +37,6 @@ fun LazyListScope.UserRepositoriesList(
             )
         )
     }
-
-    if (repositories != null && repositories.isNotEmpty()) {
         items(
             count = repositories.size
         ) {
