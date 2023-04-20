@@ -2,6 +2,10 @@ package com.denisvieira05.githubusersearch.ui.modules.userdetailscreen.component
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Build
+import androidx.compose.material.icons.outlined.Share
+import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,9 +26,11 @@ fun RepositoryItem(
     repository: Repository,
     onPress: () -> Unit
 ) {
-    val (_, name, description) = repository
+    val (_, name, description, htmlUrl, forks, language, stars) = repository
 
     ElevatedCard(
+        modifier = Modifier
+            .fillMaxWidth(),
         onClick = { onPress() },
     ) {
         Column(
@@ -33,8 +39,7 @@ fun RepositoryItem(
                 .padding(
                     horizontal = dimensionResource(id = R.dimen.min_space_size),
                     vertical = dimensionResource(id = R.dimen.min_space_size)
-                ),
-            horizontalAlignment = Alignment.CenterHorizontally
+                )
         ) {
             Spacer(
                 modifier = Modifier.height(
@@ -45,13 +50,27 @@ fun RepositoryItem(
                 name,
                 fontWeight = FontWeight.SemiBold,
             )
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.min_space_size)))
             description?.let {
                 Text(
                     it,
-                    maxLines = 1,
+                    maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
-                    textAlign = TextAlign.Center
                 )
+            }
+
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.min_space_size)))
+
+            Row {
+                Icon(Icons.Outlined.Star, contentDescription = "Stars")
+                Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.min_space_size)))
+                Text(stars.toString())
+                Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.normal_space_size)))
+                Icon(Icons.Outlined.Share, contentDescription = "Forks")
+                Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.min_space_size)))
+                Text(forks.toString())
+                Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.normal_space_size)))
+                language?.let { Text(it) }
             }
         }
     }

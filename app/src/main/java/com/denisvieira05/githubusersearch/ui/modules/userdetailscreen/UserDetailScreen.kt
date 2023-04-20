@@ -67,7 +67,7 @@ fun UserDetailScreen(
                     start = dimensionResource(id = R.dimen.medium_space_size),
                     end = dimensionResource(id = R.dimen.medium_space_size)
                 ),
-            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.min_space_size)),
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.normal_space_size)),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             item {
