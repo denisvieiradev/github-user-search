@@ -1,4 +1,4 @@
-package com.denisvieira05.githubusersearch.data.remote.retrofit
+package com.denisvieira05.githubusersearch.data.remote.config.retrofit
 
 import okhttp3.Interceptor
 import okhttp3.Response

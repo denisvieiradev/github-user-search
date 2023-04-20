@@ -44,6 +44,10 @@ fun HomeScreen(
         derivedStateOf { uiState.isLoading }
     }
 
+    var searchText by remember {
+        mutableStateOf("")
+    }
+
     LaunchedEffect(key1 = Unit, block = {
         viewModel.fetchSuggestedUsers()
     })
@@ -82,11 +86,21 @@ fun HomeScreen(
                     end = dimensionResource(id = R.dimen.double_size)
                 )
             ) {
-                SearchTextField()
+                SearchTextField { currentText ->
+                    searchText = currentText
+                }
             }
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.min_size)))
             Button(modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.normal_size)),
-                onClick = { }) {
+                onClick = {
+                    navController.navigate(
+                        buildRouteWithSimpleArgument(
+                            USER_DETAIL_SCREEN_ROUTE,
+                            searchText
+                        )
+                    )
+                }
+            ) {
                 Text(
                     text = stringResource(R.string.search_button),
                     fontSize = fontDimensionResource(id = R.dimen.normal_font_size)

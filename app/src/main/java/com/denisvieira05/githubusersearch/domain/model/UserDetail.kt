@@ -12,6 +12,8 @@ data class UserDetail(
     val htmlUrl: String,
     val followers: Long,
     val following: Long,
+    val repositories: Long,
     val blog: String?,
+    val bio: String?,
     val twitterUsername: String?,
 ) : Parcelable

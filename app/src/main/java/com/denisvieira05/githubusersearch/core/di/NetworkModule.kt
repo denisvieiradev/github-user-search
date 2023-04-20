@@ -1,7 +1,8 @@
 package com.denisvieira05.githubusersearch.core.di
 
 import com.denisvieira05.githubusersearch.data.remote.user.UserAPI
-import com.denisvieira05.githubusersearch.data.remote.retrofit.LoggedInterceptor
+import com.denisvieira05.githubusersearch.data.remote.config.retrofit.LoggedInterceptor
+import com.denisvieira05.githubusersearch.data.remote.repository.RepositoryAPI
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,15 +29,28 @@ object NetworkModule {
     }
 
     @Provides
-    fun provideApiRepository(
+    fun provideRetrofit(
         okHttpClient: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory
-    ): UserAPI {
+    ): Retrofit {
         return Retrofit.Builder()
             .baseUrl("https://api.github.com/")
             .addConverterFactory(gsonConverterFactory)
             .client(okHttpClient)
             .build()
-            .create(UserAPI::class.java)
+    }
+
+    @Provides
+    fun provideUserAPI(
+        retrofit: Retrofit
+    ): UserAPI {
+        return retrofit.create(UserAPI::class.java)
+    }
+
+    @Provides
+    fun provideRepositoryAPI(
+        retrofit: Retrofit
+    ): RepositoryAPI {
+        return retrofit.create(RepositoryAPI::class.java)
     }
 }

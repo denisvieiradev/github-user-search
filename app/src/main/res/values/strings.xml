@@ -7,4 +7,8 @@
     <string name="search_button">SEARCH</string>
     <string name="suggested_user_header_text">Suggested for you</string>
     <string name="suggested_user_header_see_all_action">See all</string>
+    <string name="user_profile_image_content_description">User Profile Image</string>
+    <string name="user_detail_followers">Followers</string>
+    <string name="user_detail_following">Following</string>
+    <string name="user_detail_repositories">Repositories</string>
 </resources>

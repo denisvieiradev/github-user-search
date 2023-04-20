@@ -1,6 +1,11 @@
 package com.denisvieira05.githubusersearch.core.di
 
+import com.denisvieira05.githubusersearch.data.converters.RepositoryConverter
 import com.denisvieira05.githubusersearch.data.converters.SuggestedUserConverter
+import com.denisvieira05.githubusersearch.data.converters.UserDetailConverter
+import com.denisvieira05.githubusersearch.data.remote.repository.RepositoryAPI
+import com.denisvieira05.githubusersearch.data.remote.repository.RepositoryRemoteDataSource
+import com.denisvieira05.githubusersearch.data.remote.repository.RepositoryRemoteDataSourceImpl
 import com.denisvieira05.githubusersearch.data.remote.user.UserAPI
 import com.denisvieira05.githubusersearch.data.remote.user.UserRemoteDataSource
 import com.denisvieira05.githubusersearch.data.remote.user.UserRemoteDataSourceImpl
@@ -15,12 +20,25 @@ object DataSourcesModule {
 
     @Provides
     fun provideUserRemoteDataSource(
-        apiRepository: UserAPI,
+        api: UserAPI,
         suggestedUserConverter: SuggestedUserConverter,
+        userDetailConverter: UserDetailConverter
     ): UserRemoteDataSource {
         return UserRemoteDataSourceImpl(
-            api = apiRepository,
+            api = api,
             suggestedUserConverter = suggestedUserConverter,
+            userDetailConverter = userDetailConverter
+        )
+    }
+
+    @Provides
+    fun provideRepositoryRemoteDataSource(
+        api: RepositoryAPI,
+        repositoryConverter: RepositoryConverter
+    ): RepositoryRemoteDataSource {
+        return RepositoryRemoteDataSourceImpl(
+            api = api,
+            repositoryConverter = repositoryConverter,
         )
     }
 }

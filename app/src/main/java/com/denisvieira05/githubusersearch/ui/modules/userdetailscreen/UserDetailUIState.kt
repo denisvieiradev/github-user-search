@@ -1,8 +1,8 @@
 package com.denisvieira05.githubusersearch.ui.modules.userdetailscreen
 
-import com.denisvieira05.githubusersearch.domain.model.SuggestedUser
+import com.denisvieira05.githubusersearch.domain.model.UserDetail
 
 data class UserDetailUIState(
-    val suggestedUsers: List<SuggestedUser>? = null,
+    val user: UserDetail? = null,
     val isLoading: Boolean = false,
 )

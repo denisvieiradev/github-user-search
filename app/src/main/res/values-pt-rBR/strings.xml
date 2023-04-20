@@ -6,6 +6,10 @@
     <string name="search">Buscar</string>
     <string name="octacat_github">Octacat</string>
     <string name="search_button">BUSCAR</string>
-    <string name="suggested_user_header_text">Suggested for you</string>
-    <string name="suggested_user_header_see_all_action">See all</string>
+    <string name="suggested_user_header_text">Sugerido para você</string>
+    <string name="suggested_user_header_see_all_action">Ver todos</string>
+    <string name="user_profile_image_content_description">Imagem do Usuário</string>
+    <string name="user_detail_followers">Seguidores</string>
+    <string name="user_detail_following">Seguindo</string>
+    <string name="user_detail_repositories">Repositórios</string>
 </resources>

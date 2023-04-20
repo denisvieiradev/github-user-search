@@ -25,6 +25,7 @@ import com.denisvieira05.githubusersearch.R
 import com.denisvieira05.githubusersearch.ui.components.AppTopBar
 import com.denisvieira05.githubusersearch.ui.components.SearchTextField
 import com.denisvieira05.githubusersearch.ui.modules.homescreen.components.SuggestedUserList
+import com.denisvieira05.githubusersearch.ui.modules.userdetailscreen.components.UserDetailHeader
 import com.denisvieira05.githubusersearch.ui.theme.VeryLightGrey
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -39,8 +40,8 @@ fun UserDetailScreen(
     val uiState by remember { viewModel.uiState }
     val coroutineScope = rememberCoroutineScope()
     val lazyColumnState = rememberLazyListState()
-    val suggestedUsers by remember {
-        derivedStateOf { uiState.suggestedUsers }
+    val user by remember {
+        derivedStateOf { uiState.user }
     }
     val isLoading by remember {
         derivedStateOf { uiState.isLoading }
@@ -81,8 +82,7 @@ fun UserDetailScreen(
                 ),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
-            Text("Hello World")
+            UserDetailHeader()
         }
     }
 }

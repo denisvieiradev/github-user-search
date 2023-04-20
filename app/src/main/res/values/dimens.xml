@@ -12,4 +12,5 @@
     // specific
     <dimen name="header_home_screen_image">120dp</dimen>
     <dimen name="circular_progress_loading_box">70dp</dimen>
+    <dimen name="user_profile_image_size">90dp</dimen>
 </resources>
