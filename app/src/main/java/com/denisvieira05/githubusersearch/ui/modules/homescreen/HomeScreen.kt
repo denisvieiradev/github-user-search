@@ -9,18 +9,22 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.denisvieira05.githubusersearch.R
 import com.denisvieira05.githubusersearch.ui.components.CircularProgressLoading
 import com.denisvieira05.githubusersearch.ui.components.SearchTextField
 import com.denisvieira05.githubusersearch.ui.modules.homescreen.components.SuggestedUserList
+import com.denisvieira05.githubusersearch.ui.navigation.ScreenRoutesBuilder.USER_DETAIL_SCREEN_ROUTE
+import com.denisvieira05.githubusersearch.ui.navigation.ScreenRoutesBuilder.buildRouteWithSimpleArgument
 import com.denisvieira05.githubusersearch.ui.theme.VeryLightGrey
+import com.denisvieira05.githubusersearch.ui.utils.fontDimensionResource
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -55,42 +59,37 @@ fun HomeScreen(
                 .fillMaxSize()
                 .fillMaxHeight()
                 .padding(top = it.calculateTopPadding())
-                .padding(
-                    start = 16.dp,
-                    end = 16.dp,
-                    top = 16.dp,
-                    bottom = 16.dp
-                ),
+                .padding(dimensionResource(id = R.dimen.normal_size)),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.double_size)))
             Image(
                 painter = painterResource(R.drawable.octa2),
-                contentDescription = "Octacat",
-                modifier = Modifier
-                    .size(120.dp)
+                contentDescription = stringResource(R.string.octacat_github),
+                modifier = Modifier.size(dimensionResource(id = R.dimen.header_home_screen_image)),
             )
             Text(
-                text = "Welcome to Github User Search",
+                text = stringResource(id = R.string.welcome_phrase),
                 fontWeight = FontWeight.Bold,
-                fontSize = 24.sp,
-                modifier = Modifier.padding(24.dp),
+                fontSize = fontDimensionResource(id = R.dimen.medium_font_size),
+                modifier = Modifier.padding(dimensionResource(id = R.dimen.medium_size)),
                 textAlign = TextAlign.Center
             )
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.min_size)))
             Box(
-                modifier = Modifier.padding(start = 32.dp, end = 32.dp)
+                modifier = Modifier.padding(
+                    start = dimensionResource(id = R.dimen.double_size),
+                    end = dimensionResource(id = R.dimen.double_size)
+                )
             ) {
                 SearchTextField()
             }
-            Spacer(modifier = Modifier.height(8.dp))
-            Button(
-                modifier = Modifier.padding(vertical = 18.dp),
-                onClick = { }
-            ) {
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.min_size)))
+            Button(modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.normal_size)),
+                onClick = { }) {
                 Text(
-                    text = "BUSCAR",
-                    fontSize = 16.sp
+                    text = stringResource(R.string.search_button),
+                    fontSize = fontDimensionResource(id = R.dimen.normal_font_size)
                 )
             }
 
@@ -101,12 +100,19 @@ fun HomeScreen(
                         .padding(50.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    CircularProgressLoading(size = 70.dp)
+                    CircularProgressLoading(size = dimensionResource(id = R.dimen.circular_progress_loading_box))
                 }
             }
 
             if (suggestedUsers != null) {
-                SuggestedUserList(suggestedUsers!!)
+                SuggestedUserList(
+                    suggestedUsers!!,
+                    onPressUserItem = { userName ->
+                        navController.navigate(
+                            buildRouteWithSimpleArgument(USER_DETAIL_SCREEN_ROUTE, userName)
+                        )
+                    }
+                )
             }
         }
     }

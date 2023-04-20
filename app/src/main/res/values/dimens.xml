@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="min_size">8dp</dimen>
+    <dimen name="normal_size">16dp</dimen>
+    <dimen name="medium_size">24dp</dimen>
+    <dimen name="double_size">32dp</dimen>
+
+    // font
+    <dimen name="normal_font_size">16sp</dimen>
+    <dimen name="medium_font_size">24sp</dimen>
+
+    // specific
+    <dimen name="header_home_screen_image">120dp</dimen>
+    <dimen name="circular_progress_loading_box">70dp</dimen>
+</resources>

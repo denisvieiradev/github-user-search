@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Github User Search</string>
 
-    <string name="back">Voltar</string>
-    <string name="search">Buscar</string>
+    <string name="welcome_phrase">Welcome to Github User Search</string>
+    <string name="back">Back</string>
+    <string name="octacat_github">Octacat</string>
+    <string name="search_button">SEARCH</string>
+    <string name="suggested_user_header_text">Suggested for you</string>
+    <string name="suggested_user_header_see_all_action">See all</string>
 </resources>

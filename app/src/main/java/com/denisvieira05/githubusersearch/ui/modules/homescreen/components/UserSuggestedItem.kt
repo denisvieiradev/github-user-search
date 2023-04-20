@@ -22,10 +22,11 @@ import com.denisvieira05.githubusersearch.ui.theme.Grey
 @Composable
 fun UserSuggestedItem(
     userName: String,
-    avatarUrl: String
+    avatarUrl: String,
+    onPress: () -> Unit
 ) {
     ElevatedCard(
-        onClick = { /*TODO*/ },
+        onClick = { onPress() },
     ) {
         Column(
             modifier = Modifier
@@ -33,16 +34,6 @@ fun UserSuggestedItem(
                 .padding(horizontal = 16.dp, vertical = 32.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            val image = painterResource(R.drawable.octa2)
-//                Image(
-//                    painter = image,
-//                    contentDescription = "Octacat",
-//                    modifier = Modifier
-//                        .size(90.dp)
-//                        .clip(CircleShape)
-//                        .border(1.dp, Grey)
-//                        .background(Color.White)
-//                )
             GlideImage(
                 imageUrl = avatarUrl,
                 modifier = Modifier
