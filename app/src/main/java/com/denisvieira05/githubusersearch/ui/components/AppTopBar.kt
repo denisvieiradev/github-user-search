@@ -13,13 +13,14 @@ import com.denisvieira05.githubusersearch.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppTopBar(
+    title: String,
     onClickShare: () -> Unit,
     onClickBack: () -> Unit) {
     TopAppBar(
         modifier = Modifier
             .fillMaxWidth(),
         title = {
-            Text(stringResource(R.string.app_name))
+            Text(title)
         },
         navigationIcon = {
             IconButton(onClick = { onClickBack() }) {

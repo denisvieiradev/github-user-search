@@ -7,9 +7,9 @@ import kotlinx.parcelize.Parcelize
 data class Repository(
     val id: Long,
     val name: String,
-    val description: String,
+    val description: String?,
     val htmlUrl: String,
     val forks: Long,
-    val language: String,
+    val language: String?,
     val stars: Long,
 ) : Parcelable

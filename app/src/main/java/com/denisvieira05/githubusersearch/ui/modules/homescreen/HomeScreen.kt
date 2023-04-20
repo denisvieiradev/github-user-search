@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -30,20 +29,16 @@ import com.denisvieira05.githubusersearch.ui.utils.fontDimensionResource
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    modifier: Modifier = Modifier,
     navController: NavController,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val uiState by remember { viewModel.uiState }
-    val coroutineScope = rememberCoroutineScope()
-    val lazyColumnState = rememberLazyListState()
     val suggestedUsers by remember {
         derivedStateOf { uiState.suggestedUsers }
     }
     val isLoading by remember {
         derivedStateOf { uiState.isLoading }
     }
-
     var searchText by remember {
         mutableStateOf("")
     }
@@ -63,10 +58,10 @@ fun HomeScreen(
                 .fillMaxSize()
                 .fillMaxHeight()
                 .padding(top = it.calculateTopPadding())
-                .padding(dimensionResource(id = R.dimen.normal_size)),
+                .padding(dimensionResource(id = R.dimen.normal_space_size)),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.double_size)))
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.double_space_size)))
             Image(
                 painter = painterResource(R.drawable.octa2),
                 contentDescription = stringResource(R.string.octacat_github),
@@ -76,22 +71,22 @@ fun HomeScreen(
                 text = stringResource(id = R.string.welcome_phrase),
                 fontWeight = FontWeight.Bold,
                 fontSize = fontDimensionResource(id = R.dimen.medium_font_size),
-                modifier = Modifier.padding(dimensionResource(id = R.dimen.medium_size)),
+                modifier = Modifier.padding(dimensionResource(id = R.dimen.medium_space_size)),
                 textAlign = TextAlign.Center
             )
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.min_size)))
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.min_space_size)))
             Box(
                 modifier = Modifier.padding(
-                    start = dimensionResource(id = R.dimen.double_size),
-                    end = dimensionResource(id = R.dimen.double_size)
+                    start = dimensionResource(id = R.dimen.double_space_size),
+                    end = dimensionResource(id = R.dimen.double_space_size)
                 )
             ) {
                 SearchTextField { currentText ->
                     searchText = currentText
                 }
             }
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.min_size)))
-            Button(modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.normal_size)),
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.min_space_size)))
+            Button(modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.normal_space_size)),
                 onClick = {
                     navController.navigate(
                         buildRouteWithSimpleArgument(

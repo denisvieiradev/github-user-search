@@ -12,10 +12,7 @@ class GetSuggestedUsersUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(): DataOrException<List<SuggestedUser>, Exception> {
         return withContext(Dispatchers.IO) {
-            val response = repository.getSuggestedUsers()
-            val dataShuffled = response.data?.shuffled()
-
-            DataOrException(data = dataShuffled, exception = response.exception)
+            repository.getSuggestedUsers()
         }
     }
 }

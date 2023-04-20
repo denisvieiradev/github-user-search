@@ -20,7 +20,7 @@ fun UserStats(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(dimensionResource(id = R.dimen.medium_size)),
+                .padding(dimensionResource(id = R.dimen.medium_space_size)),
             horizontalArrangement = Arrangement.SpaceAround
         ) {
             Column(
@@ -47,7 +47,7 @@ fun UserStats(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    stringResource(R.string.user_detail_repositories)
+                    stringResource(R.string.user_detail_repositories_title)
                 )
                 Text(
                     repositories.toString()

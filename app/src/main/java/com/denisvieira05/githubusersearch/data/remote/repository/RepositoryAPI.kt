@@ -9,5 +9,5 @@ interface RepositoryAPI {
     @GET("users/{userName}/repos")
     suspend fun getRepositories(
         @Path("userName") userName: String
-    ) : List<RepositoryResponse?>
+    ) : List<RepositoryResponse>
 }

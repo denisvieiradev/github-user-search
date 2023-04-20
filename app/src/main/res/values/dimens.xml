@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="min_size">8dp</dimen>
-    <dimen name="normal_size">16dp</dimen>
-    <dimen name="medium_size">24dp</dimen>
-    <dimen name="double_size">32dp</dimen>
+    <dimen name="min_space_size">8dp</dimen>
+    <dimen name="normal_space_size">16dp</dimen>
+    <dimen name="medium_space_size">24dp</dimen>
+    <dimen name="double_space_size">32dp</dimen>
 
     // font
     <dimen name="normal_font_size">16sp</dimen>

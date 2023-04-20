@@ -2,7 +2,6 @@ package com.denisvieira05.githubusersearch.ui.modules.userdetailscreen.component
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -12,7 +11,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import com.denisvieira05.githubusersearch.R
 import com.denisvieira05.githubusersearch.domain.model.UserDetail
 import com.denisvieira05.githubusersearch.ui.components.GlideImage
@@ -51,27 +49,21 @@ fun UserDetailHeader(user: UserDetail = fakeUser) {
             )
         }
 
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.normal_size)))
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.normal_space_size)))
         Text(
-            "@$userName",
+            completeName,
             fontWeight = FontWeight.SemiBold,
             textAlign = TextAlign.Center
         )
-
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.min_size)))
-        Text(
-            completeName,
-            textAlign = TextAlign.Center
-        )
         bio?.let {
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.medium_size)))
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.min_space_size)))
             Text(
                 it,
                 textAlign = TextAlign.Center,
             )
         }
 
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.medium_size)))
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.medium_space_size)))
         UserStats(
             followers,
             following,

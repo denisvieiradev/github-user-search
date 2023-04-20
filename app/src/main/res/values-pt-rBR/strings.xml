@@ -11,5 +11,7 @@
     <string name="user_profile_image_content_description">Imagem do Usuário</string>
     <string name="user_detail_followers">Seguidores</string>
     <string name="user_detail_following">Seguindo</string>
-    <string name="user_detail_repositories">Repositórios</string>
+    <string name="user_detail_repositories_title">Repositórios</string>
+    <string name="alt_sad_emoji">Sad emoji</string>
+    <string name="repositories_empty_list">Não há repositorios deste usuário ainda</string>
 </resources>

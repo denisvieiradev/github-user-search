@@ -10,5 +10,8 @@
     <string name="user_profile_image_content_description">User Profile Image</string>
     <string name="user_detail_followers">Followers</string>
     <string name="user_detail_following">Following</string>
-    <string name="user_detail_repositories">Repositories</string>
+    <string name="user_detail_repositories_title">Repositories</string>
+    <string name="alt_sad_emoji">Sad emoji</string>
+    <string name="repositories_empty_list">There are no repositories for this user yet</string>
+    <string name="repositories_list_title">Repositories</string>
 </resources>

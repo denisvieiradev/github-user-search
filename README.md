@@ -15,6 +15,7 @@ The application generates information taken from the github API about the user's
 - Unit and Integration tests
 
 Coming soon
+- Cache config and improve state management
 - See complete list of suggested users in another screen
 - To favorite users and storage locally 
 - Show favorited users list

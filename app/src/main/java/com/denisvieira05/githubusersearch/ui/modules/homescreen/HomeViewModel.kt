@@ -18,7 +18,6 @@ class HomeViewModel @Inject constructor(
     private val _uiState = mutableStateOf(HomeUIState())
     val uiState: State<HomeUIState> = _uiState
 
-
     fun fetchSuggestedUsers() {
         runServerCall(
             serverCall = {
