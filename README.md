@@ -16,6 +16,7 @@ The application generates information taken from the github API about the user's
 
 Coming soon
 - Cache config and improve state management
+- Improve thread and exception management with coroutines flow
 - See complete list of suggested users in another screen
 - To favorite users and storage locally 
 - Show favorited users list
