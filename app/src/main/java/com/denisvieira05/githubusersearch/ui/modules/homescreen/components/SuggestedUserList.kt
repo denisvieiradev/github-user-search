@@ -19,7 +19,8 @@ import com.denisvieira05.githubusersearch.ui.utils.fontDimensionResource
 @Composable
 fun SuggestedUserList(
     suggestedUsers: List<SuggestedUser>,
-    onPressUserItem: (userName: String) -> Unit
+    onPressUserItem: (userName: String) -> Unit,
+    onPressSeeAll: () -> Unit,
 ) {
     val lazyListState = rememberLazyListState()
 
@@ -35,7 +36,9 @@ fun SuggestedUserList(
                 fontSize = fontDimensionResource(id = R.dimen.normal_font_size),
                 textAlign = TextAlign.Center
             )
-            TextButton(onClick = { /*TODO*/ }) {
+            TextButton(onClick = {
+                onPressSeeAll()
+            }) {
                 Text(
                     text = stringResource(R.string.suggested_user_header_see_all_action),
                     fontSize = fontDimensionResource(id = R.dimen.normal_font_size),

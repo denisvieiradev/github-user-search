@@ -1,5 +1,6 @@
 package com.denisvieira05.githubusersearch.ui.components
 
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -14,7 +15,7 @@ import com.denisvieira05.githubusersearch.R
 @Composable
 fun AppTopBar(
     title: String,
-    onClickShare: () -> Unit,
+    actions: @Composable RowScope.() -> Unit = {},
     onClickBack: () -> Unit) {
     TopAppBar(
         modifier = Modifier
@@ -26,10 +27,6 @@ fun AppTopBar(
             IconButton(onClick = { onClickBack() }) {
                 Icon(Icons.Filled.ArrowBack, null)
             }
-        }, actions = {
-            IconButton(onClick = { onClickShare() }) {
-                Icon(Icons.Filled.Share, null)
-            }
-        }
+        }, actions = actions
     )
 }

@@ -15,4 +15,5 @@
     <string name="alt_sad_emoji">Sad emoji</string>
     <string name="repositories_empty_list">Não há repositorios deste usuário ainda</string>
     <string name="share_user_profile_text">Olá, encontrei um ótimo desenvolvedor para você conhecer no Github \n Clique no link: https://github.com/%s/</string>
+    <string name="suggested_users_screen_title">Suggested Users to you</string>
 </resources>
