@@ -8,6 +8,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.denisvieira05.githubusersearch.R
@@ -45,37 +46,34 @@ fun SuggestedUsersScreen(
             )
         }
     ) {
-        Column {
-            Box(modifier = Modifier.fillMaxSize()) {
-                CircularProgressLoading(
-                    size = dimensionResource(id = R.dimen.circular_progress_loading_box)
-                )
-            }
-            LazyVerticalGrid(
-                modifier = Modifier
-                    .padding(it)
-                    .padding(
-                        start = dimensionResource(id = R.dimen.medium_space_size),
-                        end = dimensionResource(id = R.dimen.medium_space_size)
-                    ),
-                verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.normal_space_size)),
-                horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.normal_space_size)),
-                columns = GridCells.Fixed(2),
-            ) {
-                if (isLoading) {
-                    item {
-
-                    }
-                }
-                if (suggestedUsers != null) {
-                    SuggestedUsersLazyGrid(suggestedUsers!!) { userName ->
-                        navController.navigate(
-                            ScreenRoutesBuilder.buildRouteWithSimpleArgument(
-                                ScreenRoutesBuilder.USER_DETAIL_SCREEN_ROUTE,
-                                userName
-                            )
+        LazyVerticalGrid(
+            modifier = Modifier
+                .padding(it)
+                .padding(
+                    start = dimensionResource(id = R.dimen.medium_space_size),
+                    end = dimensionResource(id = R.dimen.medium_space_size)
+                ),
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.normal_space_size)),
+            horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.normal_space_size)),
+            columns = GridCells.Fixed(2),
+        ) {
+            if (isLoading) {
+                item {
+                    Box(modifier = Modifier.fillMaxWidth()) {
+                        CircularProgressLoading(
+                            size = dimensionResource(id = R.dimen.circular_progress_loading_box)
                         )
                     }
+                }
+            }
+            if (suggestedUsers != null) {
+                SuggestedUsersLazyGrid(suggestedUsers!!) { userName ->
+                    navController.navigate(
+                        ScreenRoutesBuilder.buildRouteWithSimpleArgument(
+                            ScreenRoutesBuilder.USER_DETAIL_SCREEN_ROUTE,
+                            userName
+                        )
+                    )
                 }
             }
         }
