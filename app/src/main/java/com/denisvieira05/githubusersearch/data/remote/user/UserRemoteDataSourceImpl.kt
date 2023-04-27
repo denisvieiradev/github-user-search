@@ -24,7 +24,7 @@ class UserRemoteDataSourceImpl(
     override suspend fun getUserDetail(userName: String): DataOrException<UserDetail, Exception> {
         return try {
             val response = api.getUserDetail(userName)
-            DataOrException(data = userDetailConverter.mapResponse(response), exception = null)
+            DataOrException(data = userDetailConverter.mapFromResponse(response), exception = null)
         } catch (exception: Exception) {
             DataOrException(exception = exception, data = null)
         }

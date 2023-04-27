@@ -15,16 +15,16 @@ class UserDetailConverterTest {
 
     @Test
     fun `given mapResponse of converter is called then should convert to entity correctly`() {
-        val result = userDetailConverter.mapResponse(fakeData)
+        val result = userDetailConverter.mapFromResponse(fakeData)
 
         assertThat(result!!.id).isEqualTo(fakeData.id)
         assertThat(result.completeName).isEqualTo(fakeData.completeName)
         assertThat(result.userName).isEqualTo(fakeData.userName)
         assertThat(result.avatarUrl).isEqualTo(fakeData.avatarUrl)
         assertThat(result.htmlUrl).isEqualTo(fakeData.htmlUrl)
-        assertThat(result.followers).isEqualTo(fakeData.followers)
-        assertThat(result.following).isEqualTo(fakeData.following)
-        assertThat(result.repositories).isEqualTo(fakeData.repositories)
+        assertThat(result.followersCount).isEqualTo(fakeData.followersCount)
+        assertThat(result.followingCount).isEqualTo(fakeData.followingCount)
+        assertThat(result.repositoriesCount).isEqualTo(fakeData.repositoriesCount)
         assertThat(result.blog).isEqualTo(fakeData.blog)
         assertThat(result.bio).isEqualTo(fakeData.bio)
         assertThat(result.twitterUsername).isEqualTo(fakeData.twitterUsername)
@@ -36,9 +36,9 @@ class UserDetailConverterTest {
         userName = "repository description",
         avatarUrl = "avatar.com",
         htmlUrl = "htmlUrl",
-        followers = 123,
-        following = 123,
-        repositories = 123,
+        followersCount = 123,
+        followingCount = 123,
+        repositoriesCount = 123,
         blog = "blog.com",
         bio = "3123",
         twitterUsername = "3123",
