@@ -12,12 +12,12 @@ interface FavoritedUserDAO {
     @Query("SELECT * FROM $tableName")
     suspend fun getAllFavoritedUsers(): List<FavoritedUserEntity>
 
-    @Query("DELETE FROM $tableName WHERE remoteId = :remoteId")
+    @Query("DELETE FROM $tableName WHERE remote_id = :remoteId")
     suspend fun removeFavoritedUser(remoteId: Long)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveAsFavoritedUser(favoritedUser: FavoritedUserEntity)
 
-    @Query("SELECT * FROM $tableName WHERE remoteId = :remoteId LIMIT 1")
+    @Query("SELECT * FROM $tableName WHERE remote_id = :remoteId LIMIT 1")
     suspend fun findByRemoteId(remoteId: Long): FavoritedUserEntity
 }

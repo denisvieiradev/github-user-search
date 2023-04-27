@@ -12,15 +12,17 @@ The application generates information taken from the github API about the user's
 - Search for GitHub users by their username
 - See relevant user information based on their search
 - See a repositories list of users
+- See complete list of suggested users in another screen
 - Unit and Integration tests
 
 Coming soon
 - Cache config and improve state management
 - Improve thread and exception management with coroutines flow
-- See complete list of suggested users in another screen
 - To favorite users and storage locally 
 - Show favorited users list
 - Switch between light and dark themes
+- To Test DAO classes with room resources 
+- To Test API classes mocking and mock fake server 
 - UI tests
 
 
