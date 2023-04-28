@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -11,6 +13,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.denisvieira05.githubusersearch.R
@@ -22,6 +25,7 @@ import com.denisvieira05.githubusersearch.ui.modules.homescreen.components.UserS
 fun HomeScreen(
     navigateToUserDetail: (userName: String) -> Unit,
     navigateToSuggestedUsers: () -> Unit,
+    navigateToFavoritedUser: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -43,6 +47,11 @@ fun HomeScreen(
             onPressSearch = { navigateToUserDetail(searchText) },
             onSearchFieldChange = viewModel::updateSearchText
         )
+
+        TextButton(onClick = { navigateToFavoritedUser() }) {
+            Text(stringResource(R.string.meus_favoritos))
+        }
+
         if (uiState.isLoading) {
             CircularProgressLoading(size = dimensionResource(id = R.dimen.circular_progress_loading_box))
         }

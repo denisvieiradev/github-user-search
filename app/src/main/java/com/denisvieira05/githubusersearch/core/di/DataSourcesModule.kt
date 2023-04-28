@@ -3,6 +3,9 @@ package com.denisvieira05.githubusersearch.core.di
 import com.denisvieira05.githubusersearch.data.converters.RepositoryConverter
 import com.denisvieira05.githubusersearch.data.converters.SuggestedUserConverter
 import com.denisvieira05.githubusersearch.data.converters.UserDetailConverter
+import com.denisvieira05.githubusersearch.data.local.favoriteduser.FavoritedUserDAO
+import com.denisvieira05.githubusersearch.data.local.favoriteduser.FavoritedUserLocalDataSource
+import com.denisvieira05.githubusersearch.data.local.favoriteduser.FavoritedUserLocalDataSourceImpl
 import com.denisvieira05.githubusersearch.data.remote.repository.RepositoryAPI
 import com.denisvieira05.githubusersearch.data.remote.repository.RepositoryRemoteDataSource
 import com.denisvieira05.githubusersearch.data.remote.repository.RepositoryRemoteDataSourceImpl
@@ -39,6 +42,17 @@ object DataSourcesModule {
         return RepositoryRemoteDataSourceImpl(
             api = api,
             repositoryConverter = repositoryConverter,
+        )
+    }
+
+    @Provides
+    fun provideFavoritedUsersLocalDataSource(
+        dao: FavoritedUserDAO,
+        userDetailConverter: UserDetailConverter
+    ): FavoritedUserLocalDataSource {
+        return FavoritedUserLocalDataSourceImpl(
+            favoritedUserDAO = dao,
+            userDetailConverter = userDetailConverter,
         )
     }
 }

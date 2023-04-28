@@ -12,6 +12,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.denisvieira05.githubusersearch.ui.main.navigation.ScreenRoute
+import com.denisvieira05.githubusersearch.ui.main.navigation.ScreenRoute.FavoritedUsersScreenRoute
 import com.denisvieira05.githubusersearch.ui.main.navigation.ScreenRoute.SuggestedUsersScreenRoute
 import com.denisvieira05.githubusersearch.ui.main.navigation.ScreenRoute.UserDetailScreenRoute
 import java.lang.ref.WeakReference
@@ -46,6 +48,12 @@ class MainComposableAppState(
     fun navigateToSuggestedUsersScreen() {
         navController.navigate(
             SuggestedUsersScreenRoute.route
+        )
+    }
+
+    fun navigateToFavoritedUsersScreen() {
+        navController.navigate(
+            FavoritedUsersScreenRoute.route
         )
     }
 }

@@ -15,4 +15,5 @@ sealed class ScreenRoute(val route: String) {
     }
 
     object SuggestedUsersScreenRoute : ScreenRoute("suggestedUsers")
+    object FavoritedUsersScreenRoute : ScreenRoute("favoritedUsers")
 }

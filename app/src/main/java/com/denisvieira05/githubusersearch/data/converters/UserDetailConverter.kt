@@ -28,8 +28,8 @@ class UserDetailConverter @Inject constructor() {
     }
 
 
-    fun mapFromEntity(entity: FavoritedUserEntity): UserDetail {
-        return entity.let {
+    fun mapFromEntity(entity: FavoritedUserEntity?): UserDetail? {
+        return entity?.let {
             UserDetail(
                 id = it.remoteId,
                 userName = it.userName,

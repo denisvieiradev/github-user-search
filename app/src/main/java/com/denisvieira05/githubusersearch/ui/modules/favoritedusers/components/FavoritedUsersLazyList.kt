@@ -1,16 +1,16 @@
-package com.denisvieira05.githubusersearch.ui.modules.suggestedusersscreen.components
+package com.denisvieira05.githubusersearch.ui.modules.favoritedusers.components
 
 import androidx.compose.foundation.lazy.grid.LazyGridScope
-import com.denisvieira05.githubusersearch.domain.model.SuggestedUser
+import com.denisvieira05.githubusersearch.domain.model.UserDetail
 import com.denisvieira05.githubusersearch.ui.modules.homescreen.components.UserSuggestedItem
 
 
-fun LazyGridScope.suggestedUsersLazyGrid(
-    suggestedUsers: List<SuggestedUser>,
+fun LazyGridScope.favoritedUsersLazyGrid(
+    favoritedUsers: List<UserDetail>,
     onPressItem: (userName: String) -> Unit
 ) {
-    items(count = suggestedUsers.size) {
-        val (_, userName, avatarUrl) = suggestedUsers[it]
+    items(count = favoritedUsers.size) {
+        val (_, userName, avatarUrl) = favoritedUsers[it]
         UserSuggestedItem(
             userName = userName,
             avatarUrl = avatarUrl,

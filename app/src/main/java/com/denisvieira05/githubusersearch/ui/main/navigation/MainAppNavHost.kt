@@ -14,6 +14,7 @@ import com.denisvieira05.githubusersearch.ui.main.navigation.NavArguments.USERNA
 import com.denisvieira05.githubusersearch.ui.main.navigation.ScreenRoute.HomeScreenRoute
 import com.denisvieira05.githubusersearch.ui.main.navigation.ScreenRoute.SuggestedUsersScreenRoute
 import com.denisvieira05.githubusersearch.ui.main.navigation.ScreenRoute.UserDetailScreenRoute
+import com.denisvieira05.githubusersearch.ui.modules.favoritedusers.FavoritedUsersScreen
 
 @Composable
 fun MainAppNavHost(
@@ -28,7 +29,8 @@ fun MainAppNavHost(
         ) {
             HomeScreen(
                 navigateToUserDetail = appState::navigateToUserDetailScreen,
-                navigateToSuggestedUsers = appState::navigateToSuggestedUsersScreen
+                navigateToSuggestedUsers = appState::navigateToSuggestedUsersScreen,
+                navigateToFavoritedUser = appState::navigateToFavoritedUsersScreen,
             )
         }
 
@@ -45,6 +47,15 @@ fun MainAppNavHost(
             route = SuggestedUsersScreenRoute.route
         ) {
             SuggestedUsersScreen(
+                navigateToBack = appState::navigateBack,
+                navigateToUserDetail = appState::navigateToUserDetailScreen
+            )
+        }
+
+        composable(
+            route = ScreenRoute.FavoritedUsersScreenRoute.route
+        ) {
+            FavoritedUsersScreen(
                 navigateToBack = appState::navigateBack,
                 navigateToUserDetail = appState::navigateToUserDetailScreen
             )
