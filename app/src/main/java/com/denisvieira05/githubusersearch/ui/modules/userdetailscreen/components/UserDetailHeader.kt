@@ -21,9 +21,9 @@ val fakeUser = UserDetail(
     userName = "denisvieira05",
     avatarUrl = "https://avatars.githubusercontent.com/u/8844649?v=4",
     htmlUrl = "https://avatars.githubusercontent.com/u/8844649?v=4",
-    followers = 69,
-    following = 163,
-    repositories = 60,
+    followersCount = 69,
+    followingCount = 163,
+    repositoriesCount = 60,
     blog = "https://denisvieira.notion.site",
     bio = "Software Engineer from Maceió-AL \r\n/ Brazil",
     twitterUsername = "denisvieira05"

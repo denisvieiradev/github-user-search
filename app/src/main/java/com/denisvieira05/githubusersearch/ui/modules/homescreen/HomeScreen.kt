@@ -20,6 +20,7 @@ import com.denisvieira05.githubusersearch.R
 import com.denisvieira05.githubusersearch.ui.components.CircularProgressLoading
 import com.denisvieira05.githubusersearch.ui.components.SearchTextField
 import com.denisvieira05.githubusersearch.ui.modules.homescreen.components.SuggestedUserList
+import com.denisvieira05.githubusersearch.ui.navigation.ScreenRoutesBuilder.SUGGESTED_USERS_SCREEN_ROUTE
 import com.denisvieira05.githubusersearch.ui.navigation.ScreenRoutesBuilder.USER_DETAIL_SCREEN_ROUTE
 import com.denisvieira05.githubusersearch.ui.navigation.ScreenRoutesBuilder.buildRouteWithSimpleArgument
 import com.denisvieira05.githubusersearch.ui.theme.VeryLightGrey
@@ -119,6 +120,11 @@ fun HomeScreen(
                     onPressUserItem = { userName ->
                         navController.navigate(
                             buildRouteWithSimpleArgument(USER_DETAIL_SCREEN_ROUTE, userName)
+                        )
+                    },
+                    onPressSeeAll = {
+                        navController.navigate(
+                            SUGGESTED_USERS_SCREEN_ROUTE
                         )
                     }
                 )

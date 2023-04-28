@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -54,8 +56,10 @@ fun UserDetailScreen(
                 onClickBack = {
                     navController.popBackStack()
                 },
-                onClickShare = {
-                    shareUser(userName, context)
+                actions = {
+                    IconButton(onClick = { shareUser(userName, context) }) {
+                        Icon(Icons.Filled.Share, null)
+                    }
                 }
             )
         }

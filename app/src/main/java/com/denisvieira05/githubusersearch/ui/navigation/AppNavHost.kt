@@ -6,9 +6,11 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.denisvieira05.githubusersearch.ui.navigation.ScreenRoutesBuilder.HOME_SCREEN_ROUTE
 import com.denisvieira05.githubusersearch.ui.modules.homescreen.HomeScreen
+import com.denisvieira05.githubusersearch.ui.modules.suggestedusersscreen.SuggestedUsersScreen
 import com.denisvieira05.githubusersearch.ui.modules.userdetailscreen.UserDetailScreen
+import com.denisvieira05.githubusersearch.ui.navigation.ScreenRoutesBuilder.HOME_SCREEN_ROUTE
+import com.denisvieira05.githubusersearch.ui.navigation.ScreenRoutesBuilder.SUGGESTED_USERS_SCREEN_ROUTE
 import com.denisvieira05.githubusersearch.ui.navigation.ScreenRoutesBuilder.USERNAME_NAV_ARGUMENT
 import com.denisvieira05.githubusersearch.ui.navigation.ScreenRoutesBuilder.USER_DETAIL_SCREEN_ROUTE
 
@@ -33,6 +35,12 @@ fun AppNavHost(
         ) { backStackEntry ->
             val userName = backStackEntry.arguments?.getString(USERNAME_NAV_ARGUMENT)
             UserDetailScreen(navController = navController, userName = userName)
+        }
+
+        composable(
+            route = SUGGESTED_USERS_SCREEN_ROUTE
+        ) {
+            SuggestedUsersScreen(navController = navController)
         }
     }
 }
