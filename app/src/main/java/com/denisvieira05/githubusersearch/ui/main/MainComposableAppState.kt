@@ -50,7 +50,6 @@ class MainComposableAppState(
     }
 }
 
-
 /**
  * Remembers and creates an instance of [MainComposableAppState]
  */

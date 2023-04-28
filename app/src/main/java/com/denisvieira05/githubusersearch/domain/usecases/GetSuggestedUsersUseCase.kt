@@ -10,9 +10,5 @@ import javax.inject.Inject
 class GetSuggestedUsersUseCase @Inject constructor(
     private val repository: UserRemoteDataSource,
 ) {
-    suspend operator fun invoke(): DataOrException<List<SuggestedUser>, Exception> {
-        return withContext(Dispatchers.IO) {
-            repository.getSuggestedUsers()
-        }
-    }
+    suspend operator fun invoke() = repository.getSuggestedUsers()
 }

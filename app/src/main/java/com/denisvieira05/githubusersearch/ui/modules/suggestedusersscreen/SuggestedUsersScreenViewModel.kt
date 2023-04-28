@@ -23,12 +23,12 @@ class SuggestedUsersScreenViewModel @Inject constructor(
     val isLoading = derivedStateOf { uiState.value.isLoading }
 
     fun fetchSuggestedUsers() {
-        runServerCall(
-            serverCall = {
-                val result = getSuggestedUsersUseCase().data ?: emptyList()
-                onResult(result)
-            }
-        )
+//        runServerCall(
+//            serverCall = {
+//                val result = getSuggestedUsersUseCase().data ?: emptyList()
+//                onResult(result)
+//            }
+//        )
     }
 
     private fun runServerCall(serverCall: suspend (() -> Unit)) {

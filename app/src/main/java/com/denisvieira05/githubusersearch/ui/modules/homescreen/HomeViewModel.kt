@@ -17,54 +17,26 @@ class HomeViewModel @Inject constructor(
     private val getSuggestedUsersUseCase: GetSuggestedUsersUseCase,
 ) : ViewModel() {
 
-    private val _uiState = mutableStateOf(HomeUIState())
-    val uiState
-        get() = _uiState
-
-    val suggestedUsers = derivedStateOf { uiState.value.suggestedUsers }
-    val isLoading = derivedStateOf { uiState.value.isLoading }
-
-    val _searchTextState = MutableStateFlow("")
+    private val _searchTextState = mutableStateOf("")
     var searchText = _searchTextState.value
+
+    private val _suggestedUsers = MutableStateFlow<List<SuggestedUser>?>(null)
+    val suggestedUsers = _suggestedUsers.asStateFlow()
+
+    private val _isLoading = MutableStateFlow<Boolean>(false)
+    val isLoading = _isLoading.asStateFlow()
 
     fun updateSearchText(text: String) {
         searchText = text
     }
 
     fun fetchSuggestedUsers() {
-        runServerCall(
-            serverCall = {
-                val result = getSuggestedUsersUseCase().data ?: emptyList()
-                onResult(result)
-                println("dns: onResult ${result.toString()} ")
-            }
-        )
-    }
-
-    private fun runServerCall(serverCall: suspend (() -> Unit)) {
         viewModelScope.launch {
-            onLoading()
-            serverCall()
-        }.invokeOnCompletion {
-            onLoaded()
+            _isLoading.emit(true)
+            getSuggestedUsersUseCase().collect { suggestedUsers ->
+                _suggestedUsers.emit(suggestedUsers)
+                _isLoading.emit(false)
+            }
         }
-    }
-
-    private fun onLoading() {
-        _uiState.value = _uiState.value.copy(
-            isLoading = true
-        )
-    }
-
-    private fun onLoaded() {
-        _uiState.value = _uiState.value.copy(
-            isLoading = false
-        )
-    }
-
-    private fun onResult(users: List<SuggestedUser>) {
-        this._uiState.value = this._uiState.value.copy(
-            suggestedUsers = users
-        )
     }
 }

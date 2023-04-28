@@ -1,18 +1,16 @@
 package com.denisvieira05.githubusersearch.ui.modules.homescreen
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.denisvieira05.githubusersearch.R
 import com.denisvieira05.githubusersearch.ui.components.CircularProgressLoading
@@ -25,8 +23,8 @@ fun HomeScreen(
     navigateToSuggestedUsers: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
-    val suggestedUsers = remember { viewModel.suggestedUsers }
-    val isLoading = remember { viewModel.isLoading }
+    val suggestedUsers by viewModel.suggestedUsers.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
 
     LaunchedEffect(key1 = Unit, block = {
         viewModel.fetchSuggestedUsers()
@@ -44,20 +42,13 @@ fun HomeScreen(
             onPressSearch = { navigateToUserDetail(viewModel.searchText) },
             onSearchFieldChange = viewModel::updateSearchText
         )
-        if (isLoading.value) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(50.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressLoading(size = dimensionResource(id = R.dimen.circular_progress_loading_box))
-            }
+        if (isLoading) {
+            CircularProgressLoading(size = dimensionResource(id = R.dimen.circular_progress_loading_box))
         }
 
-        if (suggestedUsers.value != null) {
+        if (suggestedUsers != null) {
             SuggestedUserList(
-                viewModel.suggestedUsers.value!!,
+                suggestedUsers!!,
                 onPressUserItem = { userName ->
                     navigateToUserDetail(userName)
                 },
