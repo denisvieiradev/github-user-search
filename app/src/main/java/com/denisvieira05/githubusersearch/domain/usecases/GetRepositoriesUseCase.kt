@@ -12,9 +12,7 @@ import javax.inject.Inject
 class GetRepositoriesUseCase @Inject constructor(
     private val repository: RepositoryRemoteDataSource,
 ) {
-    suspend operator fun invoke(userName: String): DataOrException<List<Repository>, Exception> {
-        return withContext(Dispatchers.IO) {
-            repository.getRepositories(userName)
-        }
-    }
+    suspend operator fun invoke(userName: String) =
+        repository.getRepositories(userName)
+
 }

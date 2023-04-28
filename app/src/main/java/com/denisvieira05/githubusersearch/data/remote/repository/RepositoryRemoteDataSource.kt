@@ -1,9 +1,8 @@
 package com.denisvieira05.githubusersearch.data.remote.repository
 
-import com.denisvieira05.githubusersearch.domain.model.DataOrException
 import com.denisvieira05.githubusersearch.domain.model.Repository
-import com.denisvieira05.githubusersearch.domain.model.SuggestedUser
+import kotlinx.coroutines.flow.Flow
 
 interface RepositoryRemoteDataSource {
-    suspend fun getRepositories(userName: String): DataOrException<List<Repository>, Exception>
+    suspend fun getRepositories(userName: String): Flow<List<Repository>>
 }

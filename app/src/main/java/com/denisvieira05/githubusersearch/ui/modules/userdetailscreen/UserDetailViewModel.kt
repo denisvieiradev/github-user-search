@@ -11,6 +11,12 @@ import com.denisvieira05.githubusersearch.domain.usecases.GetRepositoriesUseCase
 import com.denisvieira05.githubusersearch.domain.usecases.GetUserDetailUseCase
 import com.denisvieira05.githubusersearch.ui.main.navigation.NavArguments.USERNAME_NAV_ARGUMENT
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectIndexed
+import kotlinx.coroutines.flow.merge
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,48 +29,45 @@ class UserDetailViewModel @Inject constructor(
 
     private val userName: String = checkNotNull(savedStateHandle[USERNAME_NAV_ARGUMENT])
 
-    private val uiState = mutableStateOf(UserDetailUIState())
-
-    val user = derivedStateOf { uiState.value.user }
-    val repositories = derivedStateOf { uiState.value.repositories }
-    val isLoading = derivedStateOf { uiState.value.isLoading }
+    private val _uiState = MutableStateFlow(UserDetailUIState())
+    val uiState = _uiState.asStateFlow()
 
     fun fetchData() {
-        runServerCall(
-            serverCall = {
-                val userDetail = getUserDetailUseCase(userName).data
-                val repositories = getRepositoriesUseCase(userName).data
-                onResult(userDetail, repositories)
-            }
-        )
-    }
-
-    private fun runServerCall(serverCall: suspend (() -> Unit)) {
         viewModelScope.launch {
-            onLoading()
-            serverCall()
-        }.invokeOnCompletion {
-            onLoaded()
+            fetchUserDetails()
+            fetchUserRepositories()
         }
     }
 
-    private fun onLoading() {
-        uiState.value = uiState.value.copy(
-            isLoading = true
+    private suspend fun fetchUserDetails() {
+        showUserLoading()
+        getUserDetailUseCase(userName).collect {
+            _uiState.value = uiState.value.copy(
+                user = it,
+                isLoadingUser = false
+            )
+        }
+    }
+
+    private suspend fun fetchUserRepositories() {
+        showRepositoriesLoading()
+        getRepositoriesUseCase(userName).collect {
+            _uiState.value = uiState.value.copy(
+                repositories = it,
+                isLoadingRepositories = false
+            )
+        }
+    }
+
+    private fun showUserLoading() {
+        _uiState.value = uiState.value.copy(
+            isLoadingUser = true
         )
     }
 
-    private fun onLoaded() {
-        uiState.value = uiState.value.copy(
-            isLoading = false
+    private fun showRepositoriesLoading() {
+        _uiState.value = uiState.value.copy(
+            isLoadingRepositories = true
         )
     }
-
-    private fun onResult(userDetail: UserDetail?, repositories: List<Repository>?) {
-        this.uiState.value = this.uiState.value.copy(
-            user = userDetail,
-            repositories = repositories,
-        )
-    }
-
 }

@@ -6,5 +6,6 @@ import com.denisvieira05.githubusersearch.domain.model.UserDetail
 data class UserDetailUIState(
     val user: UserDetail? = null,
     val repositories: List<Repository>? = null,
-    val isLoading: Boolean = false,
+    val isLoadingUser: Boolean = false,
+    val isLoadingRepositories: Boolean = false,
 )

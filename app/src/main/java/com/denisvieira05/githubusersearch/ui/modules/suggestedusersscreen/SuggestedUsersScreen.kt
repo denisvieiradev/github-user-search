@@ -21,8 +21,7 @@ fun SuggestedUsersScreen(
     navigateToBack: () -> Unit,
     viewModel: SuggestedUsersScreenViewModel = hiltViewModel(),
 ) {
-    val suggestedUsers = remember { viewModel.suggestedUsers }
-    val isLoading = remember { viewModel.isLoading }
+    val uiState by viewModel.uiState.collectAsState()
 
     LaunchedEffect(key1 = Unit, block = {
         viewModel.fetchSuggestedUsers()
@@ -49,17 +48,15 @@ fun SuggestedUsersScreen(
             horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.normal_space_size)),
             columns = GridCells.Fixed(2),
         ) {
-            if (isLoading.value) {
+            if (uiState.isLoading) {
                 item {
-                    Box(modifier = Modifier.fillMaxWidth()) {
-                        CircularProgressLoading(
-                            size = dimensionResource(id = R.dimen.circular_progress_loading_box)
-                        )
-                    }
+                    CircularProgressLoading(
+                        size = dimensionResource(id = R.dimen.circular_progress_loading_box)
+                    )
                 }
             }
-            if (suggestedUsers.value != null) {
-                SuggestedUsersLazyGrid(suggestedUsers.value!!) { userName ->
+            if (uiState.suggestedUsers != null) {
+                SuggestedUsersLazyGrid(uiState.suggestedUsers!!) { userName ->
                     navigateToUserDetail(userName)
                 }
             }

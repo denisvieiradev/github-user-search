@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.denisvieira05.githubusersearch.R
 import com.denisvieira05.githubusersearch.ui.components.CircularProgressLoading
 import com.denisvieira05.githubusersearch.ui.modules.homescreen.components.SuggestedUserList
@@ -23,10 +24,10 @@ fun HomeScreen(
     navigateToSuggestedUsers: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
-    val suggestedUsers by viewModel.suggestedUsers.collectAsState()
-    val isLoading by viewModel.isLoading.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
+    val searchText by viewModel.searchTextState.collectAsState()
 
-    LaunchedEffect(key1 = Unit, block = {
+    LaunchedEffect(key1 = true, block = {
         viewModel.fetchSuggestedUsers()
     })
 
@@ -39,16 +40,16 @@ fun HomeScreen(
     ) {
 
         UserSearchSection(
-            onPressSearch = { navigateToUserDetail(viewModel.searchText) },
+            onPressSearch = { navigateToUserDetail(searchText) },
             onSearchFieldChange = viewModel::updateSearchText
         )
-        if (isLoading) {
+        if (uiState.isLoading) {
             CircularProgressLoading(size = dimensionResource(id = R.dimen.circular_progress_loading_box))
         }
 
-        if (suggestedUsers != null) {
+        if (uiState.suggestedUsers != null) {
             SuggestedUserList(
-                suggestedUsers!!,
+                uiState.suggestedUsers!!,
                 onPressUserItem = { userName ->
                     navigateToUserDetail(userName)
                 },

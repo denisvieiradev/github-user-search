@@ -29,10 +29,8 @@ fun UserDetailScreen(
     userName: String?,
     viewModel: UserDetailViewModel = hiltViewModel(),
 ) {
-    val user by remember { viewModel.user }
-    val isLoading by remember { viewModel.isLoading }
-    val repositories by remember { viewModel.repositories }
 
+    val uiState by viewModel.uiState.collectAsState()
     val context = rememberMainComposableAppState().weakContext.get()
 
     LaunchedEffect(key1 = Unit, block = {
@@ -65,7 +63,7 @@ fun UserDetailScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             item {
-                if (isLoading) {
+                if (uiState.isLoadingUser) {
                     CircularProgressLoading(
                         size = dimensionResource(id = R.dimen.circular_progress_loading_box)
                     )
@@ -73,13 +71,21 @@ fun UserDetailScreen(
             }
 
             item {
-                if (user != null) {
-                    UserDetailHeader(user!!)
+                if (uiState.user != null) {
+                    UserDetailHeader(uiState.user!!)
+                }
+            }
+
+            item {
+                if (uiState.isLoadingRepositories) {
+                    CircularProgressLoading(
+                        size = dimensionResource(id = R.dimen.circular_progress_loading_box)
+                    )
                 }
             }
 
             UserRepositoriesList(
-                repositories = repositories
+                repositories = uiState.repositories
             ) {
                 openUserRepositoryOnBrowser()
             }

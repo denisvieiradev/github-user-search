@@ -11,9 +11,6 @@ import javax.inject.Inject
 class GetUserDetailUseCase @Inject constructor(
     private val repository: UserRemoteDataSource,
 ) {
-    suspend operator fun invoke(userName: String): DataOrException<UserDetail, Exception> {
-        return withContext(Dispatchers.IO) {
-            repository.getUserDetail(userName)
-        }
-    }
+    suspend operator fun invoke(userName: String) = repository.getUserDetail(userName)
+
 }

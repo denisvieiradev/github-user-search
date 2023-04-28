@@ -8,10 +8,10 @@ import retrofit2.http.Path
 interface UserAPI {
     @GET("users")
     suspend fun getUsers(
-    ) : List<SuggestedUserResponse?>
+    ) : List<SuggestedUserResponse>
 
     @GET("users/{userName}")
     suspend fun getUserDetail(
         @Path("userName") userName: String
-    ) : UserDetailResponse?
+    ) : UserDetailResponse
 }
