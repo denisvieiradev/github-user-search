@@ -20,17 +20,12 @@ import com.denisvieira05.githubusersearch.ui.navigation.ScreenRoutesBuilder
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SuggestedUsersScreen(
-    navController: NavController,
+    navigateToUserDetail: (userName: String) -> Unit,
+    navigateToBack: () -> Unit,
     viewModel: SuggestedUsersScreenViewModel = hiltViewModel(),
 ) {
-    val uiState by remember { viewModel.uiState }
-
-    val suggestedUsers by remember {
-        derivedStateOf { uiState.suggestedUsers }
-    }
-    val isLoading by remember {
-        derivedStateOf { uiState.isLoading }
-    }
+    val suggestedUsers = remember { viewModel.suggestedUsers }
+    val isLoading = remember { viewModel.isLoading }
 
     LaunchedEffect(key1 = Unit, block = {
         viewModel.fetchSuggestedUsers()
@@ -41,7 +36,7 @@ fun SuggestedUsersScreen(
             AppTopBar(
                 title = stringResource(R.string.suggested_users_screen_title),
                 onClickBack = {
-                    navController.popBackStack()
+                    navigateToBack()
                 }
             )
         }
@@ -57,7 +52,7 @@ fun SuggestedUsersScreen(
             horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.normal_space_size)),
             columns = GridCells.Fixed(2),
         ) {
-            if (isLoading) {
+            if (isLoading.value) {
                 item {
                     Box(modifier = Modifier.fillMaxWidth()) {
                         CircularProgressLoading(
@@ -66,19 +61,12 @@ fun SuggestedUsersScreen(
                     }
                 }
             }
-            if (suggestedUsers != null) {
-                SuggestedUsersLazyGrid(suggestedUsers!!) { userName ->
-                    navController.navigate(
-                        ScreenRoutesBuilder.buildRouteWithSimpleArgument(
-                            ScreenRoutesBuilder.USER_DETAIL_SCREEN_ROUTE,
-                            userName
-                        )
-                    )
+            if (suggestedUsers.value != null) {
+                SuggestedUsersLazyGrid(suggestedUsers.value!!) { userName ->
+                    navigateToUserDetail(userName)
                 }
             }
         }
-
-
     }
 
 }

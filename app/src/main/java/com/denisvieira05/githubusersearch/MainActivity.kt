@@ -15,15 +15,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val navController = rememberNavController()
-            GithubUserSearchTheme {
-                MainScreen(navController)
-            }
+            MainComposableApp()
         }
-    }
-
-    @Composable
-    private fun MainScreen(navController: NavHostController) {
-        AppNavHost(navController)
     }
 }

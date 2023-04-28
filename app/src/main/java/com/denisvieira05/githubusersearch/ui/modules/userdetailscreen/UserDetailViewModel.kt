@@ -1,16 +1,15 @@
 package com.denisvieira05.githubusersearch.ui.modules.userdetailscreen
 
-import androidx.compose.runtime.State
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.denisvieira05.githubusersearch.domain.model.DataOrException
 import com.denisvieira05.githubusersearch.domain.model.Repository
 import com.denisvieira05.githubusersearch.domain.model.UserDetail
 import com.denisvieira05.githubusersearch.domain.usecases.GetRepositoriesUseCase
 import com.denisvieira05.githubusersearch.domain.usecases.GetUserDetailUseCase
-import com.denisvieira05.githubusersearch.ui.navigation.ScreenRoutesBuilder.USERNAME_NAV_ARGUMENT
+import com.denisvieira05.githubusersearch.ui.navigation.ScreenRoute.NavArguments.USERNAME_NAV_ARGUMENT
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -24,8 +23,11 @@ class UserDetailViewModel @Inject constructor(
 
     private val userName: String = checkNotNull(savedStateHandle[USERNAME_NAV_ARGUMENT])
 
-    private val _uiState = mutableStateOf(UserDetailUIState())
-    val uiState: State<UserDetailUIState> = _uiState
+    private val uiState = mutableStateOf(UserDetailUIState())
+
+    val user = derivedStateOf { uiState.value.user }
+    val repositories = derivedStateOf { uiState.value.repositories }
+    val isLoading = derivedStateOf { uiState.value.isLoading }
 
     fun fetchData() {
         runServerCall(
@@ -47,19 +49,19 @@ class UserDetailViewModel @Inject constructor(
     }
 
     private fun onLoading() {
-        _uiState.value = _uiState.value.copy(
+        uiState.value = uiState.value.copy(
             isLoading = true
         )
     }
 
     private fun onLoaded() {
-        _uiState.value = _uiState.value.copy(
+        uiState.value = uiState.value.copy(
             isLoading = false
         )
     }
 
     private fun onResult(userDetail: UserDetail?, repositories: List<Repository>?) {
-        this._uiState.value = this._uiState.value.copy(
+        this.uiState.value = this.uiState.value.copy(
             user = userDetail,
             repositories = repositories,
         )

@@ -1,46 +1,53 @@
 package com.denisvieira05.githubusersearch.ui.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.denisvieira05.githubusersearch.MainComposableAppState
+import com.denisvieira05.githubusersearch.rememberMainComposableAppState
 import com.denisvieira05.githubusersearch.ui.modules.homescreen.HomeScreen
 import com.denisvieira05.githubusersearch.ui.modules.suggestedusersscreen.SuggestedUsersScreen
 import com.denisvieira05.githubusersearch.ui.modules.userdetailscreen.UserDetailScreen
-import com.denisvieira05.githubusersearch.ui.navigation.ScreenRoutesBuilder.HOME_SCREEN_ROUTE
-import com.denisvieira05.githubusersearch.ui.navigation.ScreenRoutesBuilder.SUGGESTED_USERS_SCREEN_ROUTE
-import com.denisvieira05.githubusersearch.ui.navigation.ScreenRoutesBuilder.USERNAME_NAV_ARGUMENT
-import com.denisvieira05.githubusersearch.ui.navigation.ScreenRoutesBuilder.USER_DETAIL_SCREEN_ROUTE
+import com.denisvieira05.githubusersearch.ui.navigation.NavArguments.USERNAME_NAV_ARGUMENT
+import com.denisvieira05.githubusersearch.ui.navigation.ScreenRoute.HomeScreenRoute
+import com.denisvieira05.githubusersearch.ui.navigation.ScreenRoute.SuggestedUsersScreenRoute
+import com.denisvieira05.githubusersearch.ui.navigation.ScreenRoute.UserDetailScreenRoute
 
 @Composable
 fun AppNavHost(
-    navController: NavHostController,
+    appState: MainComposableAppState = rememberMainComposableAppState()
 ) {
     NavHost(
-        navController = navController,
-        startDestination = HOME_SCREEN_ROUTE,
+        navController = appState.navController,
+        startDestination = HomeScreenRoute.route,
     ) {
-
         composable(
-            route = HOME_SCREEN_ROUTE
+            route = HomeScreenRoute.route
         ) {
-            HomeScreen(navController = navController)
+            HomeScreen(
+                navigateToUserDetail = appState::navigateToUserDetailScreen,
+                navigateToSuggestedUsers = appState::navigateToSuggestedUsersScreen
+            )
         }
 
         composable(
-            route = "$USER_DETAIL_SCREEN_ROUTE/{$USERNAME_NAV_ARGUMENT}",
+            route = UserDetailScreenRoute.route,
             arguments = listOf(navArgument(USERNAME_NAV_ARGUMENT) { type = NavType.StringType })
         ) { backStackEntry ->
             val userName = backStackEntry.arguments?.getString(USERNAME_NAV_ARGUMENT)
-            UserDetailScreen(navController = navController, userName = userName)
+
+            UserDetailScreen(navigateToBack = appState::navigateBack, userName = userName)
         }
 
         composable(
-            route = SUGGESTED_USERS_SCREEN_ROUTE
+            route = SuggestedUsersScreenRoute.route
         ) {
-            SuggestedUsersScreen(navController = navController)
+            SuggestedUsersScreen(
+                navigateToBack = appState::navigateBack,
+                navigateToUserDetail = appState::navigateToUserDetailScreen
+            )
         }
     }
 }

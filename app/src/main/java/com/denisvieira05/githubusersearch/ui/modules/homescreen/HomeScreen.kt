@@ -15,14 +15,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.denisvieira05.githubusersearch.R
+import com.denisvieira05.githubusersearch.rememberMainComposableAppState
 import com.denisvieira05.githubusersearch.ui.components.CircularProgressLoading
 import com.denisvieira05.githubusersearch.ui.components.SearchTextField
 import com.denisvieira05.githubusersearch.ui.modules.homescreen.components.SuggestedUserList
-import com.denisvieira05.githubusersearch.ui.navigation.ScreenRoutesBuilder.SUGGESTED_USERS_SCREEN_ROUTE
-import com.denisvieira05.githubusersearch.ui.navigation.ScreenRoutesBuilder.USER_DETAIL_SCREEN_ROUTE
-import com.denisvieira05.githubusersearch.ui.navigation.ScreenRoutesBuilder.buildRouteWithSimpleArgument
 import com.denisvieira05.githubusersearch.ui.theme.VeryLightGrey
 import com.denisvieira05.githubusersearch.ui.utils.fontDimensionResource
 
@@ -30,19 +27,12 @@ import com.denisvieira05.githubusersearch.ui.utils.fontDimensionResource
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    navController: NavController,
+    navigateToUserDetail: (userName: String) -> Unit,
+    navigateToSuggestedUsers: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
-    val uiState by remember { viewModel.uiState }
-    val suggestedUsers by remember {
-        derivedStateOf { uiState.suggestedUsers }
-    }
-    val isLoading by remember {
-        derivedStateOf { uiState.isLoading }
-    }
-    var searchText by remember {
-        mutableStateOf("")
-    }
+    val suggestedUsers = remember { viewModel.suggestedUsers }
+    val isLoading = remember { viewModel.isLoading }
 
     LaunchedEffect(key1 = Unit, block = {
         viewModel.fetchSuggestedUsers()
@@ -83,18 +73,13 @@ fun HomeScreen(
                 )
             ) {
                 SearchTextField { currentText ->
-                    searchText = currentText
+                    viewModel.updateSearchText(currentText)
                 }
             }
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.min_space_size)))
             Button(modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.normal_space_size)),
                 onClick = {
-                    navController.navigate(
-                        buildRouteWithSimpleArgument(
-                            USER_DETAIL_SCREEN_ROUTE,
-                            searchText
-                        )
-                    )
+                    navigateToUserDetail(viewModel.searchText)
                 }
             ) {
                 Text(
@@ -103,7 +88,7 @@ fun HomeScreen(
                 )
             }
 
-            if (isLoading) {
+            if (isLoading.value) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -114,18 +99,14 @@ fun HomeScreen(
                 }
             }
 
-            if (suggestedUsers != null) {
+            if (suggestedUsers.value != null) {
                 SuggestedUserList(
-                    suggestedUsers!!,
+                    viewModel.suggestedUsers.value!!,
                     onPressUserItem = { userName ->
-                        navController.navigate(
-                            buildRouteWithSimpleArgument(USER_DETAIL_SCREEN_ROUTE, userName)
-                        )
+                        navigateToUserDetail(userName)
                     },
                     onPressSeeAll = {
-                        navController.navigate(
-                            SUGGESTED_USERS_SCREEN_ROUTE
-                        )
+                        navigateToSuggestedUsers()
                     }
                 )
             }

@@ -1,18 +1,12 @@
 package com.denisvieira05.githubusersearch.ui.modules.suggestedusersscreen
 
 import androidx.compose.runtime.State
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.denisvieira05.githubusersearch.domain.model.DataOrException
-import com.denisvieira05.githubusersearch.domain.model.Repository
 import com.denisvieira05.githubusersearch.domain.model.SuggestedUser
-import com.denisvieira05.githubusersearch.domain.model.UserDetail
-import com.denisvieira05.githubusersearch.domain.usecases.GetRepositoriesUseCase
 import com.denisvieira05.githubusersearch.domain.usecases.GetSuggestedUsersUseCase
-import com.denisvieira05.githubusersearch.domain.usecases.GetUserDetailUseCase
-import com.denisvieira05.githubusersearch.ui.navigation.ScreenRoutesBuilder.USERNAME_NAV_ARGUMENT
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,6 +19,8 @@ class SuggestedUsersScreenViewModel @Inject constructor(
     private val _uiState = mutableStateOf(SuggestedUsersScreenUIState())
     val uiState: State<SuggestedUsersScreenUIState> = _uiState
 
+    val suggestedUsers = derivedStateOf { uiState.value.suggestedUsers }
+    val isLoading = derivedStateOf { uiState.value.isLoading }
 
     fun fetchSuggestedUsers() {
         runServerCall(

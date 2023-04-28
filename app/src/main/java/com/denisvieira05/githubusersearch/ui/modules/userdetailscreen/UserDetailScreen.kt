@@ -5,8 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.*
@@ -17,7 +15,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.denisvieira05.githubusersearch.R
 import com.denisvieira05.githubusersearch.ui.components.AppTopBar
 import com.denisvieira05.githubusersearch.ui.components.CircularProgressLoading
@@ -27,21 +24,13 @@ import com.denisvieira05.githubusersearch.ui.modules.userdetailscreen.components
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserDetailScreen(
-    navController: NavController,
+    navigateToBack: () -> Unit,
     userName: String?,
     viewModel: UserDetailViewModel = hiltViewModel(),
 ) {
-    val uiState by remember { viewModel.uiState }
-
-    val user by remember {
-        derivedStateOf { uiState.user }
-    }
-    val repositories by remember {
-        derivedStateOf { uiState.repositories }
-    }
-    val isLoading by remember {
-        derivedStateOf { uiState.isLoading }
-    }
+    val user by remember { viewModel.user }
+    val isLoading by remember { viewModel.isLoading }
+    val repositories by remember { viewModel.repositories }
 
     val context = LocalContext.current
 
@@ -54,7 +43,7 @@ fun UserDetailScreen(
             AppTopBar(
                 title = "@$userName",
                 onClickBack = {
-                    navController.popBackStack()
+                    navigateToBack()
                 },
                 actions = {
                     IconButton(onClick = { shareUser(userName, context) }) {
