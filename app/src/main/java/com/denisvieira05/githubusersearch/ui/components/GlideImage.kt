@@ -11,6 +11,7 @@ import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
+import com.denisvieira05.githubusersearch.ui.main.rememberMainComposableAppState
 
 @Composable
 fun GlideImage(
@@ -21,11 +22,14 @@ fun GlideImage(
     loading: @Composable () -> Unit = { CircularProgressLoading(size = loadingSize) },
     error: @Composable ((Throwable) -> Unit)? = null
 ) {
+    val weakContext = rememberMainComposableAppState().weakContext.get()
     val painter = rememberAsyncImagePainter(
-        model = ImageRequest.Builder(LocalContext.current)
-            .data(imageUrl)
-            .size(Size.ORIGINAL) // Set the target size to load the image at.
-            .build()
+        model = weakContext?.let {
+            ImageRequest.Builder(it)
+                .data(imageUrl)
+                .size(Size.ORIGINAL) // Set the target size to load the image at.
+                .build()
+        }
     )
 
 

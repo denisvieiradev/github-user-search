@@ -18,6 +18,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.denisvieira05.githubusersearch.R
 import com.denisvieira05.githubusersearch.ui.components.AppTopBar
 import com.denisvieira05.githubusersearch.ui.components.CircularProgressLoading
+import com.denisvieira05.githubusersearch.ui.main.rememberMainComposableAppState
 import com.denisvieira05.githubusersearch.ui.modules.userdetailscreen.components.UserDetailHeader
 import com.denisvieira05.githubusersearch.ui.modules.userdetailscreen.components.UserRepositoriesList
 
@@ -32,7 +33,7 @@ fun UserDetailScreen(
     val isLoading by remember { viewModel.isLoading }
     val repositories by remember { viewModel.repositories }
 
-    val context = LocalContext.current
+    val context = rememberMainComposableAppState().weakContext.get()
 
     LaunchedEffect(key1 = Unit, block = {
         viewModel.fetchData()
@@ -46,7 +47,7 @@ fun UserDetailScreen(
                     navigateToBack()
                 },
                 actions = {
-                    IconButton(onClick = { shareUser(userName, context) }) {
+                    IconButton(onClick = { context?.let { shareUser(userName, it) } }) {
                         Icon(Icons.Filled.Share, null)
                     }
                 }

@@ -14,6 +14,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.denisvieira05.githubusersearch.ui.main.navigation.ScreenRoute.SuggestedUsersScreenRoute
 import com.denisvieira05.githubusersearch.ui.main.navigation.ScreenRoute.UserDetailScreenRoute
+import java.lang.ref.WeakReference
 
 /**
  * Responsible for holding state related to [MainComposableAppState] and containing UI-related logic.
@@ -21,8 +22,9 @@ import com.denisvieira05.githubusersearch.ui.main.navigation.ScreenRoute.UserDet
 @Stable
 class MainComposableAppState(
     val navController: NavHostController,
-    private val context: Context
+    context: Context
 ) {
+    val weakContext = WeakReference(context)
 
     val currentRoute: String?
         get() = navController.currentDestination?.route
@@ -55,29 +57,8 @@ class MainComposableAppState(
 @Composable
 fun rememberMainComposableAppState(
     navController: NavHostController = rememberNavController(),
-    resources: Resources = resources(),
     context: Context = LocalContext.current
 ) =
-    remember(navController, resources, context) {
+    remember(navController, context) {
         MainComposableAppState(navController, context)
     }
-
-
-/**
- * A composable function that returns the [Resources]. It will be recomposed when `Configuration`
- * gets updated.
- */
-@Composable
-@ReadOnlyComposable
-private fun resources(): Resources {
-    LocalConfiguration.current
-    return LocalContext.current.resources
-}
-
-/**
- * If the lifecycle is not resumed it means this NavBackStackEntry already processed a nav event.
- *
- * This is used to de-duplicate navigation events.
- */
-private fun NavBackStackEntry.lifecycleIsResumed() =
-    this.lifecycle.currentState == Lifecycle.State.RESUMED
