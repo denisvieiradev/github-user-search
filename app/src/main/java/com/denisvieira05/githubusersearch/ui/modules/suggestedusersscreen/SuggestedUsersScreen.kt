@@ -8,14 +8,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.denisvieira05.githubusersearch.R
 import com.denisvieira05.githubusersearch.ui.components.AppTopBar
 import com.denisvieira05.githubusersearch.ui.components.CircularProgressLoading
 import com.denisvieira05.githubusersearch.ui.modules.suggestedusersscreen.components.SuggestedUsersLazyGrid
-import com.denisvieira05.githubusersearch.ui.navigation.ScreenRoutesBuilder
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

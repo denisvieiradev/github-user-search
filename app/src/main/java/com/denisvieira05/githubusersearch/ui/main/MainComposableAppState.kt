@@ -1,4 +1,4 @@
-package com.denisvieira05.githubusersearch
+package com.denisvieira05.githubusersearch.ui.main
 
 import android.content.Context
 import android.content.res.Resources
@@ -12,8 +12,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.denisvieira05.githubusersearch.ui.navigation.ScreenRoute.SuggestedUsersScreenRoute
-import com.denisvieira05.githubusersearch.ui.navigation.ScreenRoute.UserDetailScreenRoute
+import com.denisvieira05.githubusersearch.ui.main.navigation.ScreenRoute.SuggestedUsersScreenRoute
+import com.denisvieira05.githubusersearch.ui.main.navigation.ScreenRoute.UserDetailScreenRoute
 
 /**
  * Responsible for holding state related to [MainComposableAppState] and containing UI-related logic.

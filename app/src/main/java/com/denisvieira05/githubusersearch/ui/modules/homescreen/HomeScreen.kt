@@ -16,7 +16,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.denisvieira05.githubusersearch.R
-import com.denisvieira05.githubusersearch.rememberMainComposableAppState
 import com.denisvieira05.githubusersearch.ui.components.CircularProgressLoading
 import com.denisvieira05.githubusersearch.ui.components.SearchTextField
 import com.denisvieira05.githubusersearch.ui.modules.homescreen.components.SuggestedUserList

@@ -1,13 +1,8 @@
-package com.denisvieira05.githubusersearch
+package com.denisvieira05.githubusersearch.ui.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.Composable
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import com.denisvieira05.githubusersearch.ui.navigation.AppNavHost
-import com.denisvieira05.githubusersearch.ui.theme.GithubUserSearchTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

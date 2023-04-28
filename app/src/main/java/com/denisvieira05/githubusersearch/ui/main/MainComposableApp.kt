@@ -1,7 +1,7 @@
-package com.denisvieira05.githubusersearch
+package com.denisvieira05.githubusersearch.ui.main
 
 import androidx.compose.runtime.Composable
-import com.denisvieira05.githubusersearch.ui.navigation.AppNavHost
+import com.denisvieira05.githubusersearch.ui.main.navigation.MainAppNavHost
 import com.denisvieira05.githubusersearch.ui.theme.GithubUserSearchTheme
 
 
@@ -10,6 +10,6 @@ fun MainComposableApp() {
     val appState = rememberMainComposableAppState()
 
     GithubUserSearchTheme {
-        AppNavHost(appState)
+        MainAppNavHost(appState)
     }
 }

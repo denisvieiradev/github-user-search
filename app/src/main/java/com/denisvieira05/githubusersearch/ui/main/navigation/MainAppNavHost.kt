@@ -1,22 +1,22 @@
-package com.denisvieira05.githubusersearch.ui.navigation
+package com.denisvieira05.githubusersearch.ui.main.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.denisvieira05.githubusersearch.MainComposableAppState
-import com.denisvieira05.githubusersearch.rememberMainComposableAppState
+import com.denisvieira05.githubusersearch.ui.main.MainComposableAppState
+import com.denisvieira05.githubusersearch.ui.main.rememberMainComposableAppState
 import com.denisvieira05.githubusersearch.ui.modules.homescreen.HomeScreen
 import com.denisvieira05.githubusersearch.ui.modules.suggestedusersscreen.SuggestedUsersScreen
 import com.denisvieira05.githubusersearch.ui.modules.userdetailscreen.UserDetailScreen
-import com.denisvieira05.githubusersearch.ui.navigation.NavArguments.USERNAME_NAV_ARGUMENT
-import com.denisvieira05.githubusersearch.ui.navigation.ScreenRoute.HomeScreenRoute
-import com.denisvieira05.githubusersearch.ui.navigation.ScreenRoute.SuggestedUsersScreenRoute
-import com.denisvieira05.githubusersearch.ui.navigation.ScreenRoute.UserDetailScreenRoute
+import com.denisvieira05.githubusersearch.ui.main.navigation.NavArguments.USERNAME_NAV_ARGUMENT
+import com.denisvieira05.githubusersearch.ui.main.navigation.ScreenRoute.HomeScreenRoute
+import com.denisvieira05.githubusersearch.ui.main.navigation.ScreenRoute.SuggestedUsersScreenRoute
+import com.denisvieira05.githubusersearch.ui.main.navigation.ScreenRoute.UserDetailScreenRoute
 
 @Composable
-fun AppNavHost(
+fun MainAppNavHost(
     appState: MainComposableAppState = rememberMainComposableAppState()
 ) {
     NavHost(

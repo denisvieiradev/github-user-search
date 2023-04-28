@@ -1,6 +1,6 @@
-package com.denisvieira05.githubusersearch.ui.navigation
+package com.denisvieira05.githubusersearch.ui.main.navigation
 
-import com.denisvieira05.githubusersearch.ui.navigation.NavArguments.USERNAME_NAV_ARGUMENT
+import com.denisvieira05.githubusersearch.ui.main.navigation.NavArguments.USERNAME_NAV_ARGUMENT
 
 
 object NavArguments {

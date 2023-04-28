@@ -9,7 +9,7 @@ import com.denisvieira05.githubusersearch.domain.model.Repository
 import com.denisvieira05.githubusersearch.domain.model.UserDetail
 import com.denisvieira05.githubusersearch.domain.usecases.GetRepositoriesUseCase
 import com.denisvieira05.githubusersearch.domain.usecases.GetUserDetailUseCase
-import com.denisvieira05.githubusersearch.ui.navigation.ScreenRoute.NavArguments.USERNAME_NAV_ARGUMENT
+import com.denisvieira05.githubusersearch.ui.main.navigation.NavArguments.USERNAME_NAV_ARGUMENT
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
