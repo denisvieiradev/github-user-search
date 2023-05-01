@@ -56,7 +56,7 @@ fun UserDetailHeader(user: UserDetail = fakeUser) {
             textAlign = TextAlign.Center
         )
         bio?.let {
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.min_space_size)))
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.small_space_size)))
             Text(
                 it,
                 textAlign = TextAlign.Center,

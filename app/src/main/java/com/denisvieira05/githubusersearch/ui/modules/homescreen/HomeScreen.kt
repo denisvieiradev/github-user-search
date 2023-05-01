@@ -1,9 +1,16 @@
 package com.denisvieira05.githubusersearch.ui.modules.homescreen
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -15,11 +22,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.denisvieira05.githubusersearch.R
 import com.denisvieira05.githubusersearch.ui.components.CircularProgressLoading
 import com.denisvieira05.githubusersearch.ui.modules.homescreen.components.SuggestedUserList
 import com.denisvieira05.githubusersearch.ui.modules.homescreen.components.UserSearchSection
+import com.denisvieira05.githubusersearch.ui.utils.fontDimensionResource
 
 @Composable
 fun HomeScreen(
@@ -49,8 +56,20 @@ fun HomeScreen(
         )
 
         TextButton(onClick = { navigateToFavoritedUser() }) {
-            Text(stringResource(R.string.meus_favoritos))
+            Text(
+                fontSize = (fontDimensionResource(id = R.dimen.normal_font_size)),
+                text = stringResource(R.string.meus_favoritos)
+            )
+            Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.minimum_space_size)))
+            Icon(
+                Icons.Filled.Favorite,
+                null,
+                Modifier.size(dimensionResource(id = R.dimen.favorite_icon_size))
+            )
+
         }
+
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.normal_space_size)))
 
         if (uiState.isLoading) {
             CircularProgressLoading(size = dimensionResource(id = R.dimen.circular_progress_loading_box))

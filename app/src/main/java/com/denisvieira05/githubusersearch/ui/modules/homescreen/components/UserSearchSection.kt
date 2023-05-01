@@ -38,7 +38,7 @@ fun UserSearchSection(
         modifier = Modifier.padding(dimensionResource(id = R.dimen.medium_space_size)),
         textAlign = TextAlign.Center
     )
-    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.min_space_size)))
+    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.small_space_size)))
     Box(
         modifier = Modifier.padding(
             start = dimensionResource(id = R.dimen.double_space_size),
@@ -49,7 +49,7 @@ fun UserSearchSection(
             onSearchFieldChange(currentText)
         }
     }
-    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.min_space_size)))
+    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.small_space_size)))
     Button(modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.normal_space_size)),
         onClick = {
             onPressSearch()
