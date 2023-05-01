@@ -18,6 +18,7 @@ Simple app to find details, discover and favorite github users
 - Thread and exception management with coroutines flow
 
 Coming soon
+- Add github actions ci/cd setup
 - Remove favorited user on favorited users list
 - Cache config and improve state management
 - Switch between light and dark themes
@@ -35,7 +36,7 @@ Coming soon
 
 |                           Home Screen                            |                           User Detail Screen                            |                           Favorited Users Screen                            |                           Suggested Users Screen                            |
 |:----------------------------------------------------------------:|:-----------------------------------------------------------------------:|:---------------------------------------------------------------------------:|:---------------------------------------------------------------------------:|
-| <img src="screenshots/home_screen.png" width="180" height="320"> | <img src="screenshots/user_detail_screen.png" width="180" height="320"> | <img src="screenshots/favorited_users_screen.png" width="180" height="320"> | <img src="screenshots/suggested_users_screen.png" width="180" height="320"> |
+| <img src="screenshots/home_screen.png" width="180" height="380"> | <img src="screenshots/user_detail_screen.png" width="180" height="380"> | <img src="screenshots/favorited_users_screen.png" width="180" height="380"> | <img src="screenshots/suggested_users_screen.png" width="180" height="380"> |
 
 
 © Denis Vieira Rufino
