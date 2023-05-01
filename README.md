@@ -36,7 +36,7 @@ Coming soon
 
 |                           Home Screen                            |                           User Detail Screen                            |                           Favorited Users Screen                            |                           Suggested Users Screen                            |
 |:----------------------------------------------------------------:|:-----------------------------------------------------------------------:|:---------------------------------------------------------------------------:|:---------------------------------------------------------------------------:|
-| <img src="screenshots/home_screen.png" width="180" height="320"> | <img src="screenshots/user_detail_screen.png" width="180" height="320"> | <img src="screenshots/favorited_users_screen.png" width="180" height="320"> | <img src="screenshots/suggested_users_screen.png" width="180" height="320"> |
+| <img src="screenshots/home_screen.png" width="180" height="380"> | <img src="screenshots/user_detail_screen.png" width="180" height="380"> | <img src="screenshots/favorited_users_screen.png" width="180" height="380"> | <img src="screenshots/suggested_users_screen.png" width="180" height="380"> |
 
 
 © Denis Vieira Rufino
