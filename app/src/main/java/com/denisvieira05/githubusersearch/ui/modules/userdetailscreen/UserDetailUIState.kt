@@ -8,4 +8,5 @@ data class UserDetailUIState(
     val repositories: List<Repository>? = null,
     val isLoadingUser: Boolean = false,
     val isLoadingRepositories: Boolean = false,
+    val isFavoritedUser: Boolean? = null,
 )

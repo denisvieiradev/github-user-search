@@ -10,10 +10,10 @@ fun LazyGridScope.favoritedUsersLazyGrid(
     onPressItem: (userName: String) -> Unit
 ) {
     items(count = favoritedUsers.size) {
-        val (_, userName, avatarUrl) = favoritedUsers[it]
+        val userName = favoritedUsers[it].userName
         UserSuggestedItem(
             userName = userName,
-            avatarUrl = avatarUrl,
+            avatarUrl = favoritedUsers[it].avatarUrl,
             onPress = { onPressItem(userName) }
         )
     }

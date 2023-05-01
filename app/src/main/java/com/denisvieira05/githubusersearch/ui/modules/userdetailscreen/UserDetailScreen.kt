@@ -6,13 +6,15 @@ import android.os.Bundle
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.denisvieira05.githubusersearch.R
@@ -33,7 +35,7 @@ fun UserDetailScreen(
     val uiState by viewModel.uiState.collectAsState()
     val context = rememberMainComposableAppState().weakContext.get()
 
-    LaunchedEffect(key1 = Unit, block = {
+    LaunchedEffect(key1 = true, block = {
         viewModel.fetchData()
     })
 
@@ -45,6 +47,18 @@ fun UserDetailScreen(
                     navigateToBack()
                 },
                 actions = {
+                    if (uiState.isFavoritedUser != null) {
+                        IconButton(onClick = {
+                            viewModel.toggleFavoritedUser()
+                        } ) {
+                            if(uiState.isFavoritedUser!!) {
+                                Icon(Icons.Filled.Favorite, null)
+                            } else {
+                                Icon(Icons.Filled.FavoriteBorder, null)
+                            }
+                        }
+                    }
+
                     IconButton(onClick = { context?.let { shareUser(userName, it) } }) {
                         Icon(Icons.Filled.Share, null)
                     }
@@ -90,6 +104,11 @@ fun UserDetailScreen(
                 openUserRepositoryOnBrowser()
             }
 
+//            if (snackbarVisibleState) {
+//                Snackbar(
+//                    modifier = Modifier.padding(8.dp)
+//                ) { Text(text = "This is a snackbar!") }
+//            }
         }
     }
 

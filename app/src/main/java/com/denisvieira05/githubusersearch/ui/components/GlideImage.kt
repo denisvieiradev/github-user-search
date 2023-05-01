@@ -15,7 +15,7 @@ import com.denisvieira05.githubusersearch.ui.main.rememberMainComposableAppState
 
 @Composable
 fun GlideImage(
-    imageUrl: String,
+    imageUrl: String?,
     modifier: Modifier = Modifier,
     contentDescription: String? = null,
     loadingSize: Dp,

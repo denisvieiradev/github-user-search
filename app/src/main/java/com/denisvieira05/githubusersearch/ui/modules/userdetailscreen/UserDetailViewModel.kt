@@ -1,22 +1,20 @@
 package com.denisvieira05.githubusersearch.ui.modules.userdetailscreen
 
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.denisvieira05.githubusersearch.domain.model.Repository
-import com.denisvieira05.githubusersearch.domain.model.UserDetail
+import com.denisvieira05.githubusersearch.domain.usecases.CheckWasFavoritedUserUseCase
+import com.denisvieira05.githubusersearch.domain.usecases.FavoritedActions
+import com.denisvieira05.githubusersearch.domain.usecases.FavoritedActions.REMOVED_FAVORITE
+import com.denisvieira05.githubusersearch.domain.usecases.FavoritedActions.SAVE_FAVORITE
 import com.denisvieira05.githubusersearch.domain.usecases.GetRepositoriesUseCase
 import com.denisvieira05.githubusersearch.domain.usecases.GetUserDetailUseCase
+import com.denisvieira05.githubusersearch.domain.usecases.ToggleFavoritedUserUseCase
 import com.denisvieira05.githubusersearch.ui.main.navigation.NavArguments.USERNAME_NAV_ARGUMENT
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectIndexed
-import kotlinx.coroutines.flow.merge
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,7 +22,9 @@ import javax.inject.Inject
 class UserDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getUserDetailUseCase: GetUserDetailUseCase,
-    private val getRepositoriesUseCase: GetRepositoriesUseCase
+    private val getRepositoriesUseCase: GetRepositoriesUseCase,
+    private val toggleFavoritedUserUseCase: ToggleFavoritedUserUseCase,
+    private val checkWasFavoritedUserUseCase: CheckWasFavoritedUserUseCase
 ) : ViewModel() {
 
     private val userName: String = checkNotNull(savedStateHandle[USERNAME_NAV_ARGUMENT])
@@ -39,6 +39,33 @@ class UserDetailViewModel @Inject constructor(
         }
     }
 
+    fun toggleFavoritedUser() {
+        val currentUser = uiState.value.user
+        val isFavoritedUserCurrently = uiState.value.isFavoritedUser
+
+        if (currentUser != null && isFavoritedUserCurrently != null) {
+            viewModelScope.launch {
+                toggleFavoritedUserUseCase.invoke(
+                    currentUser,
+                    isFavorited = isFavoritedUserCurrently
+                ).collect {
+                    when(it) {
+                        SAVE_FAVORITE -> {
+                            _uiState.value = uiState.value.copy(
+                                isFavoritedUser = true
+                            )
+                        }
+                        REMOVED_FAVORITE -> {
+                            _uiState.value = uiState.value.copy(
+                                isFavoritedUser = false
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     private suspend fun fetchUserDetails() {
         showUserLoading()
         getUserDetailUseCase(userName).collect {
@@ -46,6 +73,8 @@ class UserDetailViewModel @Inject constructor(
                 user = it,
                 isLoadingUser = false
             )
+
+            checkWasFavoritedUser(remoteId = it.id)
         }
     }
 
@@ -55,6 +84,14 @@ class UserDetailViewModel @Inject constructor(
             _uiState.value = uiState.value.copy(
                 repositories = it,
                 isLoadingRepositories = false
+            )
+        }
+    }
+
+    private suspend fun checkWasFavoritedUser(remoteId: Long) {
+        checkWasFavoritedUserUseCase.invoke(remoteId).collect {
+            _uiState.value = uiState.value.copy(
+                isFavoritedUser = it
             )
         }
     }

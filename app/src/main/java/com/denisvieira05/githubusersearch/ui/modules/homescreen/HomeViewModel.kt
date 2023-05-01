@@ -1,6 +1,5 @@
 package com.denisvieira05.githubusersearch.ui.modules.homescreen
 
-import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.denisvieira05.githubusersearch.domain.model.SuggestedUser
@@ -24,9 +23,7 @@ class HomeViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
     private val errorHandler = CoroutineExceptionHandler { _, error ->
-        viewModelScope.launch {
-            isLoading(false)
-        }
+        isLoading(false)
     }
 
     fun updateSearchText(text: String) {
