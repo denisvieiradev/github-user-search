@@ -3,7 +3,6 @@
 
     <string name="welcome_phrase">Bem-vindo ao App de Busca de Usuários do Github</string>
     <string name="back">Voltar</string>
-    <string name="search">Buscar</string>
     <string name="octacat_github">Octacat</string>
     <string name="search_button">BUSCAR</string>
     <string name="suggested_user_header_text">Sugerido para você</string>
@@ -15,5 +14,7 @@
     <string name="alt_sad_emoji">Sad emoji</string>
     <string name="repositories_empty_list">Não há repositorios deste usuário ainda</string>
     <string name="share_user_profile_text">Olá, encontrei um ótimo desenvolvedor para você conhecer no Github \n Clique no link: https://github.com/%s/</string>
-    <string name="suggested_users_screen_title">Suggested Users to you</string>
+    <string name="suggested_users_screen_title">Alguns usuários sugeridos para você</string>
+    <string name="favorited_users_screen_title">Seus usuários favoritos</string>
+    <string name="meus_favoritos">Meus Favoritos</string>
 </resources>

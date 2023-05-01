@@ -1,32 +1,41 @@
 [![Android Badge](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://www.android.com/)[![Kotlin](https://img.shields.io/badge/Kotlin-0095D5?&style=for-the-badge&logo=kotlin&logoColor=white)](https://kotlinlang.org/)
 
-# Welcome!
+# Github User Search App
 
----
+## Simple app that consuming [Github API](https://docs.github.com/en/rest?apiVersion=2022-11-28)
 
-## Github User Search App
-The application generates information taken from the github API about the user's account, such as login, name, number of followers, repositories, etc.
+Simple app to find details, discover and favorite github users 
 
 ### Features
 - See suggested users to visit
 - Search for GitHub users by their username
 - See relevant user information based on their search
 - See a repositories list of users
+- To favorite users and storage locally
+- Show favorited users list
+- See complete list of suggested users in another screen
 - Unit and Integration tests
+- Thread and exception management with coroutines flow
 
 Coming soon
+- Remove favorited user on favorited users list
 - Cache config and improve state management
-- Improve thread and exception management with coroutines flow
-- See complete list of suggested users in another screen
-- To favorite users and storage locally 
-- Show favorited users list
 - Switch between light and dark themes
+- To Test DAO classes with room resources 
+- To Test API classes mocking and mock fake server 
 - UI tests
 
-
 ---
-
 
 ### Tech Stack Summary
 
 - Compose, Dagger Hilt, Coroutines, Retrofit, Room, Mockk.
+
+## Screens
+
+|                           Home Screen                            |                           User Detail Screen                            |                           Favorited Users Screen                            |                           Suggested Users Screen                            |
+|:----------------------------------------------------------------:|:-----------------------------------------------------------------------:|:---------------------------------------------------------------------------:|:---------------------------------------------------------------------------:|
+| <img src="screenshots/home_screen.png" width="180" height="320"> | <img src="screenshots/user_detail_screen.png" width="180" height="320"> | <img src="screenshots/favorited_users_screen.png" width="180" height="320"> | <img src="screenshots/suggested_users_screen.png" width="180" height="320"> |
+
+
+© Denis Vieira Rufino

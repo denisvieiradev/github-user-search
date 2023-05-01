@@ -1,12 +1,13 @@
 package com.denisvieira05.githubusersearch.ui.modules.homescreen
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.denisvieira05.githubusersearch.domain.model.SuggestedUser
 import com.denisvieira05.githubusersearch.domain.usecases.GetSuggestedUsersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,36 +16,33 @@ class HomeViewModel @Inject constructor(
     private val getSuggestedUsersUseCase: GetSuggestedUsersUseCase,
 ) : ViewModel() {
 
-    private val _uiState = mutableStateOf(HomeUIState())
-    val uiState: State<HomeUIState> = _uiState
+    private val _searchTextState = MutableStateFlow("")
+    val searchTextState = _searchTextState.asStateFlow()
 
-    fun fetchSuggestedUsers() {
-        runServerCall(
-            serverCall = {
-                val result = getSuggestedUsersUseCase().data ?: emptyList()
-                onResult(result)
-            }
-        )
+    private val _uiState = MutableStateFlow(HomeUIState())
+    val uiState = _uiState.asStateFlow()
+
+    private val errorHandler = CoroutineExceptionHandler { _, error ->
+        isLoading(false)
     }
 
-    private fun runServerCall(serverCall: suspend (() -> Unit)) {
-        viewModelScope.launch {
-            onLoading()
-            serverCall()
-        }.invokeOnCompletion {
-            onLoaded()
+    fun updateSearchText(text: String) {
+        _searchTextState.value = text
+    }
+
+    fun fetchSuggestedUsers() {
+        viewModelScope.launch(errorHandler) {
+            isLoading(true)
+            getSuggestedUsersUseCase().collect { suggestedUsers ->
+                onResult(suggestedUsers)
+                isLoading(false)
+            }
         }
     }
 
-    private fun onLoading() {
+    private fun isLoading(isLoading: Boolean) {
         _uiState.value = _uiState.value.copy(
-            isLoading = true
-        )
-    }
-
-    private fun onLoaded() {
-        _uiState.value = _uiState.value.copy(
-            isLoading = false
+            isLoading = isLoading
         )
     }
 

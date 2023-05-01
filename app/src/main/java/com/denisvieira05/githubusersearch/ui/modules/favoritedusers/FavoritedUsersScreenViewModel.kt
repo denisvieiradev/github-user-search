@@ -1,7 +1,8 @@
-package com.denisvieira05.githubusersearch.ui.modules.suggestedusersscreen
+package com.denisvieira05.githubusersearch.ui.modules.favoritedusers
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.denisvieira05.githubusersearch.domain.usecases.GetFavoritedUsersUseCase
 import com.denisvieira05.githubusersearch.domain.usecases.GetSuggestedUsersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,20 +12,20 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SuggestedUsersScreenViewModel @Inject constructor(
-    private val getSuggestedUsersUseCase: GetSuggestedUsersUseCase
+class FavoritedUsersScreenViewModel @Inject constructor(
+    private val getFavoritedUsersUseCase: GetFavoritedUsersUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(SuggestedUsersScreenUIState())
-    val uiState: StateFlow<SuggestedUsersScreenUIState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(FavoritedUsersScreenUIState())
+    val uiState: StateFlow<FavoritedUsersScreenUIState> = _uiState.asStateFlow()
 
-    fun fetchSuggestedUsers() {
+    fun fetchFavoritedUsers() {
         showLoading()
 
         viewModelScope.launch {
-            getSuggestedUsersUseCase().collect {
+            getFavoritedUsersUseCase().collect {
                 _uiState.value = uiState.value.copy(
-                    suggestedUsers = it,
+                    favoritedUsers = it,
                     isLoading = false
                 )
             }

@@ -5,7 +5,7 @@ import com.denisvieira05.githubusersearch.domain.model.SuggestedUser
 import com.denisvieira05.githubusersearch.ui.modules.homescreen.components.UserSuggestedItem
 
 
-fun LazyGridScope.SuggestedUsersLazyGrid(
+fun LazyGridScope.suggestedUsersLazyGrid(
     suggestedUsers: List<SuggestedUser>,
     onPressItem: (userName: String) -> Unit
 ) {

@@ -1,4 +1,4 @@
-package com.denisvieira05.githubusersearch.ui.modules.suggestedusersscreen
+package com.denisvieira05.githubusersearch.ui.modules.favoritedusers
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -12,25 +12,25 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.denisvieira05.githubusersearch.R
 import com.denisvieira05.githubusersearch.ui.components.AppTopBar
 import com.denisvieira05.githubusersearch.ui.components.CircularProgressLoading
-import com.denisvieira05.githubusersearch.ui.modules.suggestedusersscreen.components.suggestedUsersLazyGrid
+import com.denisvieira05.githubusersearch.ui.modules.favoritedusers.components.favoritedUsersLazyGrid
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SuggestedUsersScreen(
+fun FavoritedUsersScreen(
     navigateToUserDetail: (userName: String) -> Unit,
     navigateToBack: () -> Unit,
-    viewModel: SuggestedUsersScreenViewModel = hiltViewModel(),
+    viewModel: FavoritedUsersScreenViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
     LaunchedEffect(key1 = Unit, block = {
-        viewModel.fetchSuggestedUsers()
+        viewModel.fetchFavoritedUsers()
     })
 
     Scaffold(
         topBar = {
             AppTopBar(
-                title = stringResource(R.string.suggested_users_screen_title),
+                title = stringResource(R.string.favorited_users_screen_title),
                 onClickBack = {
                     navigateToBack()
                 }
@@ -55,8 +55,8 @@ fun SuggestedUsersScreen(
                     )
                 }
             }
-            if (uiState.suggestedUsers != null) {
-                suggestedUsersLazyGrid(uiState.suggestedUsers!!) { userName ->
+            if (uiState.favoritedUsers != null) {
+                favoritedUsersLazyGrid(uiState.favoritedUsers!!) { userName ->
                     navigateToUserDetail(userName)
                 }
             }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="min_space_size">8dp</dimen>
+    <dimen name="minimum_space_size">4dp</dimen>
+    <dimen name="small_space_size">8dp</dimen>
     <dimen name="normal_space_size">16dp</dimen>
     <dimen name="medium_space_size">24dp</dimen>
     <dimen name="double_space_size">32dp</dimen>
@@ -13,4 +14,5 @@
     <dimen name="header_home_screen_image">120dp</dimen>
     <dimen name="circular_progress_loading_box">70dp</dimen>
     <dimen name="user_profile_image_size">90dp</dimen>
+    <dimen name="favorite_icon_size">16dp</dimen>
 </resources>

@@ -9,8 +9,8 @@ import javax.inject.Singleton
 @Singleton
 class UserDetailConverter @Inject constructor() {
 
-    fun mapFromResponse(response: UserDetailResponse?): UserDetail? {
-        return response?.let {
+    fun mapFromResponse(response: UserDetailResponse): UserDetail {
+        return response.let {
             UserDetail(
                 id = it.id,
                 userName = it.userName,
@@ -28,8 +28,8 @@ class UserDetailConverter @Inject constructor() {
     }
 
 
-    fun mapFromEntity(entity: FavoritedUserEntity): UserDetail {
-        return entity.let {
+    fun mapFromEntity(entity: FavoritedUserEntity?): UserDetail? {
+        return entity?.let {
             UserDetail(
                 id = it.remoteId,
                 userName = it.userName,
