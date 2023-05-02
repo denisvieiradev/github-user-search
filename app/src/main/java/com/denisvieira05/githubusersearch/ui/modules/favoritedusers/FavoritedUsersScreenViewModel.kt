@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.denisvieira05.githubusersearch.domain.usecases.GetFavoritedUsersUseCase
 import com.denisvieira05.githubusersearch.domain.usecases.GetSuggestedUsersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,10 +20,16 @@ class FavoritedUsersScreenViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(FavoritedUsersScreenUIState())
     val uiState: StateFlow<FavoritedUsersScreenUIState> = _uiState.asStateFlow()
 
+    private val errorHandler = CoroutineExceptionHandler { _, error ->
+        _uiState.value = uiState.value.copy(
+            isLoading = false
+        )
+    }
+
     fun fetchFavoritedUsers() {
         showLoading()
 
-        viewModelScope.launch {
+        viewModelScope.launch(errorHandler) {
             getFavoritedUsersUseCase().collect {
                 _uiState.value = uiState.value.copy(
                     favoritedUsers = it,

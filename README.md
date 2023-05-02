@@ -23,6 +23,7 @@ Coming soon
 - Remove favorited user on favorited users list
 - Cache config and improve state management
 - Switch between light and dark themes
+- Organize Fakes on Tests
 - To Test DAO classes with room resources 
 - To Test API classes mocking and mock fake server 
 - UI tests

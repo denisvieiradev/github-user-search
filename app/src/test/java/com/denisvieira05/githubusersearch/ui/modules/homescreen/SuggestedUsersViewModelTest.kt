@@ -3,7 +3,9 @@ package com.denisvieira05.githubusersearch.ui.modules.homescreen
 import app.cash.turbine.testIn
 import com.denisvieira05.githubusersearch.CoroutineTestRule
 import com.denisvieira05.githubusersearch.domain.model.SuggestedUser
+import com.denisvieira05.githubusersearch.domain.model.UserDetail
 import com.denisvieira05.githubusersearch.domain.usecases.GetSuggestedUsersUseCase
+import com.denisvieira05.githubusersearch.ui.modules.suggestedusersscreen.SuggestedUsersScreenViewModel
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -15,12 +17,10 @@ import org.junit.Test
 import java.lang.Exception
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class HomeViewModelTest() {
+class SuggestedUsersViewModelTest {
 
     private val getSuggestedUsersUseCase = mockk<GetSuggestedUsersUseCase>(relaxed = true)
-    private val viewModel: HomeViewModel = HomeViewModel(
-        getSuggestedUsersUseCase = getSuggestedUsersUseCase
-    )
+    private val viewModel = SuggestedUsersScreenViewModel(getSuggestedUsersUseCase)
 
     private val scope = CoroutineScope(Dispatchers.Default)
     private val stateTurbine = viewModel.uiState.testIn(scope)
@@ -37,7 +37,6 @@ class HomeViewModelTest() {
 
             assertThat(actual.isLoading).isEqualTo(true)
         }
-
 
     @Test
     fun `given fetchSuggestedUsers when occurs any error then should update uiState with isLoading false`() =
@@ -68,7 +67,7 @@ class HomeViewModelTest() {
         }
 
     @Test
-    fun `given getSuggestedUsersUseCase called when empty list then should update ui state with suggestedUsers correctly`() {
+    fun `given fetchSuggestedUsers called when empty list then should update ui state with suggestedUsers correctly`() {
         val expected: List<SuggestedUser> = emptyList()
         coEvery { getSuggestedUsersUseCase.invoke() } returns flowOf(expected)
 

@@ -12,6 +12,7 @@ import com.denisvieira05.githubusersearch.domain.usecases.GetUserDetailUseCase
 import com.denisvieira05.githubusersearch.domain.usecases.ToggleFavoritedUserUseCase
 import com.denisvieira05.githubusersearch.ui.main.navigation.NavArguments.USERNAME_NAV_ARGUMENT
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
@@ -27,10 +28,14 @@ class UserDetailViewModel @Inject constructor(
     private val checkWasFavoritedUserUseCase: CheckWasFavoritedUserUseCase
 ) : ViewModel() {
 
-    private val userName: String = checkNotNull(savedStateHandle[USERNAME_NAV_ARGUMENT])
+    private val userName: String by lazy { checkNotNull(savedStateHandle[USERNAME_NAV_ARGUMENT]) }
 
     private val _uiState = MutableStateFlow(UserDetailUIState())
     val uiState = _uiState.asStateFlow()
+
+    private val errorHandler = CoroutineExceptionHandler { _, error ->
+//        isLoading(false)
+    }
 
     fun fetchData() {
         viewModelScope.launch {
@@ -49,12 +54,13 @@ class UserDetailViewModel @Inject constructor(
                     currentUser,
                     isFavorited = isFavoritedUserCurrently
                 ).collect {
-                    when(it) {
+                    when (it) {
                         SAVE_FAVORITE -> {
                             _uiState.value = uiState.value.copy(
                                 isFavoritedUser = true
                             )
                         }
+
                         REMOVED_FAVORITE -> {
                             _uiState.value = uiState.value.copy(
                                 isFavoritedUser = false

@@ -13,7 +13,7 @@ import org.junit.runners.JUnit4
 
 
 @ExperimentalCoroutinesApi
-@RunWith(JUnit4::class)
+//@RunWith(JUnit4::class)
 class RepositoryRemoteDataSourceImplTest {
 
     private val fakeUserName = ""
