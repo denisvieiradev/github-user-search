@@ -17,6 +17,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -35,8 +37,9 @@ fun HomeScreen(
     navigateToFavoritedUser: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
+
+    val (searchText, setSearchText) = rememberSaveable { mutableStateOf("") }
     val uiState by viewModel.uiState.collectAsState()
-    val searchText by viewModel.searchTextState.collectAsState()
 
     LaunchedEffect(key1 = true, block = {
         viewModel.fetchSuggestedUsers()
@@ -52,7 +55,7 @@ fun HomeScreen(
 
         UserSearchSection(
             onPressSearch = { navigateToUserDetail(searchText) },
-            onSearchFieldChange = viewModel::updateSearchText
+            onSearchFieldChange = {  setSearchText(it) }
         )
 
         TextButton(onClick = { navigateToFavoritedUser() }) {

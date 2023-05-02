@@ -16,18 +16,11 @@ class HomeViewModel @Inject constructor(
     private val getSuggestedUsersUseCase: GetSuggestedUsersUseCase,
 ) : ViewModel() {
 
-    private val _searchTextState = MutableStateFlow("")
-    val searchTextState = _searchTextState.asStateFlow()
-
     private val _uiState = MutableStateFlow(HomeUIState())
     val uiState = _uiState.asStateFlow()
 
     private val errorHandler = CoroutineExceptionHandler { _, error ->
         isLoading(false)
-    }
-
-    fun updateSearchText(text: String) {
-        _searchTextState.value = text
     }
 
     fun fetchSuggestedUsers() {

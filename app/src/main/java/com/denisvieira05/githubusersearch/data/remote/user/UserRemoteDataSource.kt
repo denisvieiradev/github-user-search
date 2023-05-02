@@ -5,7 +5,7 @@ import com.denisvieira05.githubusersearch.domain.model.UserDetail
 import kotlinx.coroutines.flow.Flow
 
 interface UserRemoteDataSource {
-    suspend fun getSuggestedUsers(): Flow<List<SuggestedUser>>
+    fun getSuggestedUsers(): Flow<List<SuggestedUser>>
 
-    suspend fun getUserDetail(userName: String): Flow<UserDetail>
+    fun getUserDetail(userName: String): Flow<UserDetail>
 }

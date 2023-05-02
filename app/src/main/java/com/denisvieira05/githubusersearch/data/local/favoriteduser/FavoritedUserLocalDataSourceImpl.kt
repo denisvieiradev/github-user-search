@@ -11,19 +11,19 @@ class FavoritedUserLocalDataSourceImpl(
     private val userDetailConverter: UserDetailConverter,
 ) : FavoritedUserLocalDataSource {
 
-    override suspend fun getAllFavoritedUsers(): Flow<List<UserDetail>> = flow {
+    override fun getAllFavoritedUsers(): Flow<List<UserDetail>> = flow {
         val result = favoritedUserDAO.getAllFavoritedUsers().mapNotNull {
             userDetailConverter.mapFromEntity(it)
         }
         emit(result)
     }
 
-    override suspend fun removeFavoritedUser(remoteId: Long): Flow<Boolean> = flow {
+    override fun removeFavoritedUser(remoteId: Long): Flow<Boolean> = flow {
         favoritedUserDAO.removeFavoritedUser(remoteId)
         emit(true)
     }
 
-    override suspend fun saveAsFavoritedUser(user: UserDetail): Flow<Boolean> = flow {
+    override fun saveAsFavoritedUser(user: UserDetail): Flow<Boolean> = flow {
         val favoritedUserEntity = userDetailConverter.mapToEntity(
             user = user
         )
@@ -31,7 +31,7 @@ class FavoritedUserLocalDataSourceImpl(
         emit(true)
     }
 
-    override suspend fun findByRemoteId(remoteId: Long): Flow<UserDetail?> = flow {
+    override fun findByRemoteId(remoteId: Long): Flow<UserDetail?> = flow {
         val favoritedUser = favoritedUserDAO.findByRemoteId(remoteId = remoteId)
         val user = userDetailConverter.mapFromEntity(favoritedUser)
         emit(user)

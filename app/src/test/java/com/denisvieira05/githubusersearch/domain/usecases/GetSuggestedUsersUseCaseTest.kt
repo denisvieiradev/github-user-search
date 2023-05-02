@@ -8,6 +8,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -23,28 +24,16 @@ class GetSuggestedUsersUseCaseTest {
 
     @Before
     fun before() {
-        remoteDataSource = mockk()
+        remoteDataSource = mockk(relaxed = true)
         useCase = GetSuggestedUsersUseCase(remoteDataSource)
     }
 
     @Test
     fun `given usecase is called then should call getSuggestedUsers on remoteDataSource`() {
-        coEvery { remoteDataSource.getSuggestedUsers() }.returns(
-            DataOrException(fakeData)
-        )
-
         runTest {
             useCase()
 
             coVerify(exactly = 1) { remoteDataSource.getSuggestedUsers() }
         }
     }
-
-    private val fakeData = listOf(
-        SuggestedUser(
-            id = 12312,
-            userName ="repositoryName",
-            avatarUrl = "repository description",
-        )
-    )
 }

@@ -18,6 +18,7 @@ Simple app to find details, discover and favorite github users
 - Thread and exception management with coroutines flow
 
 Coming soon
+- Add detekt verifications
 - Add github actions ci/cd setup
 - Remove favorited user on favorited users list
 - Cache config and improve state management

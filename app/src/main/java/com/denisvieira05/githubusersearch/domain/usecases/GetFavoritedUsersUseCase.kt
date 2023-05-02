@@ -11,5 +11,5 @@ import javax.inject.Inject
 class GetFavoritedUsersUseCase @Inject constructor(
     private val localDataSource: FavoritedUserLocalDataSource,
 ) {
-    suspend operator fun invoke() = localDataSource.getAllFavoritedUsers()
+    operator fun invoke() = localDataSource.getAllFavoritedUsers()
 }

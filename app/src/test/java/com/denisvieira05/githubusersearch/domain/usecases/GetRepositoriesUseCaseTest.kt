@@ -7,6 +7,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -22,16 +23,12 @@ class GetRepositoriesUseCaseTest {
 
     @Before
     fun before() {
-        remoteDataSource = mockk()
+        remoteDataSource = mockk(relaxed = true)
         useCase = GetRepositoriesUseCase(remoteDataSource)
     }
 
     @Test
     fun `given usecase is called then should be able to get repositories`() {
-        coEvery { remoteDataSource.getRepositories(fakeUserName) }.returns(
-            DataOrException(fakeRepositories)
-        )
-
         runTest {
             useCase(fakeUserName)
 
@@ -40,16 +37,4 @@ class GetRepositoriesUseCaseTest {
     }
 
     private val fakeUserName = "userName"
-
-    private val fakeRepositories = listOf(
-        Repository(
-            id = 12312,
-            name ="repositoryName",
-            description = "repository description",
-            htmlUrl = "",
-            forks = 123,
-            language = "",
-            stars = 3123
-        )
-    )
 }

@@ -11,7 +11,7 @@ class CheckWasFavoritedUserUseCase @Inject constructor(
     suspend operator fun invoke(remoteId: Long): Flow<Boolean> = flow {
         localDataSource.findByRemoteId(remoteId).collect {
             val isFavorite = it != null
-            emit(isFavorite)
+            emit(false)
         }
     }
 }

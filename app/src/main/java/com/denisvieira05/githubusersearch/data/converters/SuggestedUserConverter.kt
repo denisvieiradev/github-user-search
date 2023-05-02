@@ -7,15 +7,18 @@ import javax.inject.Singleton
 
 @Singleton
 class SuggestedUserConverter @Inject constructor() {
-    fun mapResponse(response: List<SuggestedUserResponse?>): List<SuggestedUser> {
-        return response.shuffled().mapNotNull {
-            it?.let { item ->
-                SuggestedUser(
-                    id = item.id,
-                    userName = item.userName,
-                    avatarUrl = it.avatarUrl
-                )
-            }
+
+    fun mapResponseList(response: List<SuggestedUserResponse?>): List<SuggestedUser> {
+        return response.filterNotNull().map {
+            mapResponse(it)
         }
+    }
+
+    fun mapResponse(item: SuggestedUserResponse): SuggestedUser {
+        return SuggestedUser(
+            id = item.id,
+            userName = item.userName,
+            avatarUrl = item.avatarUrl
+        )
     }
 }
