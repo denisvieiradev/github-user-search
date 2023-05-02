@@ -14,12 +14,12 @@ class UserRemoteDataSourceImpl(
     private val userDetailConverter: UserDetailConverter,
 ) : UserRemoteDataSource {
 
-    override suspend fun getSuggestedUsers(): Flow<List<SuggestedUser>> = flow {
+    override fun getSuggestedUsers(): Flow<List<SuggestedUser>> = flow {
         val response = api.getUsers()
-        emit(suggestedUserConverter.mapResponse(response))
+        emit(suggestedUserConverter.mapResponseList(response))
     }
 
-    override suspend fun getUserDetail(userName: String): Flow<UserDetail> = flow {
+    override fun getUserDetail(userName: String): Flow<UserDetail> = flow {
         val response = api.getUserDetail(userName)
         emit(userDetailConverter.mapFromResponse(response))
     }

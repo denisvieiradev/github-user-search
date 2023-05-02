@@ -8,19 +8,22 @@ import javax.inject.Singleton
 @Singleton
 class RepositoryConverter @Inject constructor() {
 
-    fun mapResponse(response: List<RepositoryResponse>): List<Repository> {
-        val responseMapped = response.map { item ->
-            Repository(
-                id = item.id,
-                name = item.name,
-                description = item.description,
-                htmlUrl = item.htmlUrl,
-                forks = item.forks,
-                language = item.language,
-                stars = item.stars,
-            )
+    fun mapResponseList(response: List<RepositoryResponse>): List<Repository> {
+        return response.map { item ->
+            mapResponse(item)
         }
-        return responseMapped
+    }
+
+    fun mapResponse(item: RepositoryResponse): Repository {
+        return Repository(
+            id = item.id,
+            name = item.name,
+            description = item.description,
+            htmlUrl = item.htmlUrl,
+            forks = item.forks,
+            language = item.language,
+            stars = item.stars,
+        )
     }
 
 }

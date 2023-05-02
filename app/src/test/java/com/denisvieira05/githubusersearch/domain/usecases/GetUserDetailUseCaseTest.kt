@@ -7,6 +7,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -22,16 +23,12 @@ class GetUserDetailUseCaseTest {
 
     @Before
     fun before() {
-        remoteDataSource = mockk()
+        remoteDataSource = mockk(relaxed = true)
         useCase = GetUserDetailUseCase(remoteDataSource)
     }
 
     @Test
     fun `given usecase is called then should be able to get repositories`() {
-        coEvery { remoteDataSource.getUserDetail(fakeUserName) }.returns(
-            DataOrException(fakeData)
-        )
-
         runTest {
             useCase(fakeUserName)
 
@@ -40,19 +37,4 @@ class GetUserDetailUseCaseTest {
     }
 
     private val fakeUserName = "userName"
-
-    private val fakeData = UserDetail(
-        id = 12312,
-        completeName = "Name",
-        userName = "repository description",
-        avatarUrl = "",
-        htmlUrl = "",
-        followersCount = 123,
-        followingCount = 123,
-        repositoriesCount = 123,
-        blog = "",
-        bio = "3123",
-        twitterUsername = "3123",
-    )
-
 }

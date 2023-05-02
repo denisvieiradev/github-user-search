@@ -10,8 +10,8 @@ class RepositoryRemoteDataSourceImpl(
     private val repositoryConverter: RepositoryConverter,
 ) : RepositoryRemoteDataSource {
 
-    override suspend fun getRepositories(userName: String): Flow<List<Repository>> = flow {
+    override fun getRepositories(userName: String): Flow<List<Repository>> = flow {
         val response = api.getRepositories(userName)
-        emit(repositoryConverter.mapResponse(response))
+        emit(repositoryConverter.mapResponseList(response))
     }
 }
