@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.denisvieira05.githubusersearch.domain.usecases.GetSuggestedUsersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,10 +19,16 @@ class SuggestedUsersScreenViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(SuggestedUsersScreenUIState())
     val uiState: StateFlow<SuggestedUsersScreenUIState> = _uiState.asStateFlow()
 
+    private val errorHandler = CoroutineExceptionHandler { _, error ->
+        _uiState.value = _uiState.value.copy(
+            isLoading = false
+        )
+    }
+
     fun fetchSuggestedUsers() {
         showLoading()
 
-        viewModelScope.launch {
+        viewModelScope.launch(errorHandler) {
             getSuggestedUsersUseCase().collect {
                 _uiState.value = uiState.value.copy(
                     suggestedUsers = it,
