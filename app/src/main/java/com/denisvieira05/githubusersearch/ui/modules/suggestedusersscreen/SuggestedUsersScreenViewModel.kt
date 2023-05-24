@@ -21,7 +21,7 @@ class SuggestedUsersScreenViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
     private val errorHandler = CoroutineExceptionHandler { _, error ->
-        _uiState.value = SuggestedUsersUIState.Loading
+        _uiState.value = SuggestedUsersUIState.Error
     }
 
     fun fetchSuggestedUsers() {
