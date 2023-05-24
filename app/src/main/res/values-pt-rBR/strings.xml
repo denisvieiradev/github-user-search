@@ -16,5 +16,6 @@
     <string name="share_user_profile_text">Olá, encontrei um ótimo desenvolvedor para você conhecer no Github \n Clique no link: https://github.com/%s/</string>
     <string name="suggested_users_screen_title">Alguns usuários sugeridos para você</string>
     <string name="favorited_users_screen_title">Seus usuários favoritos</string>
-    <string name="meus_favoritos">Meus Favoritos</string>
+    <string name="my_favorites">Meus Favoritos</string>
+    <string name="default_error">Algo deu errado</string>
 </resources>

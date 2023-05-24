@@ -27,6 +27,11 @@ class UserDetailConverter @Inject constructor() {
         }
     }
 
+    fun mapFromEntityList(entityList: List<FavoritedUserEntity>): List<UserDetail> {
+        return entityList.mapNotNull {
+            mapFromEntity(it)
+        }
+    }
 
     fun mapFromEntity(entity: FavoritedUserEntity?): UserDetail? {
         return entity?.let {
@@ -63,6 +68,5 @@ class UserDetailConverter @Inject constructor() {
             )
         }
     }
-
 
 }
