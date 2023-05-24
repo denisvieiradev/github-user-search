@@ -26,6 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.denisvieira05.githubusersearch.R
 import com.denisvieira05.githubusersearch.ui.components.CircularProgressLoading
+import com.denisvieira05.githubusersearch.ui.components.ErrorContent
 import com.denisvieira05.githubusersearch.ui.modules.homescreen.components.SuggestedUserList
 import com.denisvieira05.githubusersearch.ui.modules.homescreen.components.UserSearchSection
 import com.denisvieira05.githubusersearch.ui.utils.fontDimensionResource
@@ -55,13 +56,13 @@ fun HomeScreen(
 
         UserSearchSection(
             onPressSearch = { navigateToUserDetail(searchText) },
-            onSearchFieldChange = {  setSearchText(it) }
+            onSearchFieldChange = { setSearchText(it) }
         )
 
         TextButton(onClick = { navigateToFavoritedUser() }) {
             Text(
                 fontSize = (fontDimensionResource(id = R.dimen.normal_font_size)),
-                text = stringResource(R.string.meus_favoritos)
+                text = stringResource(R.string.my_favorites)
             )
             Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.minimum_space_size)))
             Icon(
@@ -74,13 +75,11 @@ fun HomeScreen(
 
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.normal_space_size)))
 
-        if (uiState.isLoading) {
-            CircularProgressLoading(size = dimensionResource(id = R.dimen.circular_progress_loading_box))
-        }
-
-        if (uiState.suggestedUsers != null) {
-            SuggestedUserList(
-                uiState.suggestedUsers!!,
+        when (uiState) {
+            SuggestedUsersUIState.Loading -> CircularProgressLoading(size = dimensionResource(id = R.dimen.circular_progress_loading_box))
+            SuggestedUsersUIState.Error -> ErrorContent()
+            is SuggestedUsersUIState.Loaded -> SuggestedUserList(
+                (uiState as SuggestedUsersUIState.Loaded).suggestedUsers,
                 onPressUserItem = { userName ->
                     navigateToUserDetail(userName)
                 },
@@ -88,6 +87,7 @@ fun HomeScreen(
                     navigateToSuggestedUsers()
                 }
             )
+            else -> CircularProgressLoading(size = dimensionResource(id = R.dimen.circular_progress_loading_box))
         }
     }
 }

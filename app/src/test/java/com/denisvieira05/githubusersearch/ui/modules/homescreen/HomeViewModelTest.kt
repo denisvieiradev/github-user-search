@@ -15,7 +15,7 @@ import org.junit.Test
 import java.lang.Exception
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class HomeViewModelTest() {
+class HomeViewModelTest {
 
     private val getSuggestedUsersUseCase = mockk<GetSuggestedUsersUseCase>(relaxed = true)
     private val viewModel: HomeViewModel = HomeViewModel(
@@ -29,28 +29,26 @@ class HomeViewModelTest() {
     val coroutineTestRule = CoroutineTestRule()
 
     @Test
-    fun `given fetchSuggestedUsers called then should update uiState with isLoading true`() =
+    fun `given fetchSuggestedUsers called then should update uiState with Loading`() =
         runTest {
             viewModel.fetchSuggestedUsers()
 
             val actual = viewModel.uiState.value
 
-            assertThat(actual.isLoading).isEqualTo(true)
+            assertThat(actual).isEqualTo(SuggestedUsersUIState.Loading)
         }
 
 
     @Test
-    fun `given fetchSuggestedUsers when occurs any error then should update uiState with isLoading false`() =
+    fun `given fetchSuggestedUsers when occurs any error then should update uiState with Error state`() =
         runTest {
             coEvery { getSuggestedUsersUseCase.invoke() } throws Exception()
 
             viewModel.fetchSuggestedUsers()
 
-            stateTurbine.skipItems(1)
-
             val actual = viewModel.uiState.value
 
-            assertThat(actual.isLoading).isEqualTo(false)
+            assertThat(actual).isEqualTo(SuggestedUsersUIState.Error)
         }
 
     @Test
@@ -60,11 +58,9 @@ class HomeViewModelTest() {
 
             viewModel.fetchSuggestedUsers()
 
-            stateTurbine.skipItems(1)
-
             val actual = viewModel.uiState.value
 
-            assertThat(actual.suggestedUsers).isEqualTo(fakeData)
+            assertThat(actual).isEqualTo(SuggestedUsersUIState.Loaded(fakeData))
         }
 
     @Test
@@ -75,11 +71,9 @@ class HomeViewModelTest() {
         runTest {
             viewModel.fetchSuggestedUsers()
 
-            stateTurbine.skipItems(1)
-
             val actual = viewModel.uiState.value
 
-            assertThat(actual.suggestedUsers).isEqualTo(expected)
+            assertThat(actual).isEqualTo(SuggestedUsersUIState.Loaded(emptyList()))
         }
     }
 

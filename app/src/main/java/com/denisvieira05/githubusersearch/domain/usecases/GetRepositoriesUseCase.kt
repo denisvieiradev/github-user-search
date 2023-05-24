@@ -12,7 +12,7 @@ import javax.inject.Inject
 class GetRepositoriesUseCase @Inject constructor(
     private val repository: RepositoryRemoteDataSource,
 ) {
-    suspend operator fun invoke(userName: String) =
+    operator fun invoke(userName: String) =
         repository.getRepositories(userName)
 
 }

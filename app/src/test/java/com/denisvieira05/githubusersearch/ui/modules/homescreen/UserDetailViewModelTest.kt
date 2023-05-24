@@ -11,6 +11,8 @@ import com.denisvieira05.githubusersearch.domain.usecases.GetUserDetailUseCase
 import com.denisvieira05.githubusersearch.domain.usecases.ToggleFavoritedUserUseCase
 import com.denisvieira05.githubusersearch.ui.main.navigation.NavArguments.USERNAME_NAV_ARGUMENT
 import com.denisvieira05.githubusersearch.ui.modules.userdetailscreen.UserDetailViewModel
+import com.denisvieira05.githubusersearch.ui.modules.userdetailscreen.model.RepositoriesUIState
+import com.denisvieira05.githubusersearch.ui.modules.userdetailscreen.model.UserDetailUIState
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.every
@@ -40,7 +42,7 @@ class UserDetailViewModelTest {
     )
 
     private val scope = CoroutineScope(Dispatchers.Default)
-    private val stateTurbine = viewModel.uiState.testIn(scope)
+//    private val stateTurbine = viewModel.uiState.testIn(scope)
 
     @get:Rule
     val coroutineTestRule = CoroutineTestRule()
@@ -55,9 +57,9 @@ class UserDetailViewModelTest {
         runTest {
             viewModel.fetchData()
 
-            val actual = viewModel.uiState.value
+            val actual = viewModel.userDetailUiState.value
 
-            assertThat(actual.isLoadingUser).isEqualTo(true)
+            assertThat(actual).isEqualTo(UserDetailUIState.Loading)
         }
 
     @Test
@@ -65,9 +67,9 @@ class UserDetailViewModelTest {
         runTest {
             viewModel.fetchData()
 
-            val actual = viewModel.uiState.value
+            val actual = viewModel.repositoriesUiState.value
 
-            assertThat(actual.isLoadingRepositories).isEqualTo(true)
+            assertThat(actual).isEqualTo(RepositoriesUIState.Loading)
         }
 
     // TODO tests to show error when fetchUserRepositories
@@ -107,11 +109,9 @@ class UserDetailViewModelTest {
 
             viewModel.fetchData()
 
-            stateTurbine.skipItems(1)
+            val actual = viewModel.userDetailUiState.value
 
-            val actual = viewModel.uiState.value
-
-            assertThat(actual.user).isEqualTo(fakeUserDetail)
+            assertThat(actual).isEqualTo(UserDetailUIState.Loaded(fakeUserDetail))
         }
 
     @Test
@@ -121,11 +121,11 @@ class UserDetailViewModelTest {
 
             viewModel.fetchData()
 
-            stateTurbine.skipItems(1)
+//            stateTurbine.skipItems(1)
 
-            val actual = viewModel.uiState.value
+            val actual = viewModel.repositoriesUiState.value
 
-            assertThat(actual.repositories).isEqualTo(fakeRepositories)
+            assertThat(actual).isEqualTo(RepositoriesUIState.Loaded(fakeRepositories))
         }
 
     @Test
@@ -136,11 +136,11 @@ class UserDetailViewModelTest {
         runTest {
             viewModel.fetchData()
 
-            stateTurbine.skipItems(1)
+//            stateTurbine.skipItems(1)
 
-            val actual = viewModel.uiState.value
+            val actual = viewModel.repositoriesUiState.value
 
-            assertThat(actual.repositories).isEqualTo(expected)
+            assertThat(actual).isEqualTo(RepositoriesUIState.Loaded(expected))
         }
     }
 

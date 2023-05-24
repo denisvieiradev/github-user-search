@@ -12,6 +12,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.denisvieira05.githubusersearch.R
 import com.denisvieira05.githubusersearch.ui.components.AppTopBar
 import com.denisvieira05.githubusersearch.ui.components.CircularProgressLoading
+import com.denisvieira05.githubusersearch.ui.modules.homescreen.SuggestedUsersUIState
 import com.denisvieira05.githubusersearch.ui.modules.suggestedusersscreen.components.suggestedUsersLazyGrid
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -48,17 +49,22 @@ fun SuggestedUsersScreen(
             horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.normal_space_size)),
             columns = GridCells.Fixed(2),
         ) {
-            if (uiState.isLoading) {
-                item {
-                    CircularProgressLoading(
-                        size = dimensionResource(id = R.dimen.circular_progress_loading_box)
-                    )
+            when (uiState) {
+                SuggestedUsersUIState.Loading -> {
+                    item {
+                        CircularProgressLoading(
+                            size = dimensionResource(id = R.dimen.circular_progress_loading_box)
+                        )
+                    }
                 }
-            }
-            if (uiState.suggestedUsers != null) {
-                suggestedUsersLazyGrid(uiState.suggestedUsers!!) { userName ->
-                    navigateToUserDetail(userName)
+
+                is SuggestedUsersUIState.Loaded -> {
+                    suggestedUsersLazyGrid((uiState as SuggestedUsersUIState.Loaded).suggestedUsers) { userName ->
+                        navigateToUserDetail(userName)
+                    }
                 }
+
+                else -> {}
             }
         }
     }

@@ -5,18 +5,17 @@ import com.denisvieira05.githubusersearch.domain.model.DataOrException
 import com.denisvieira05.githubusersearch.domain.model.UserDetail
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.mapNotNull
 
 class FavoritedUserLocalDataSourceImpl(
     private val favoritedUserDAO: FavoritedUserDAO,
     private val userDetailConverter: UserDetailConverter,
 ) : FavoritedUserLocalDataSource {
 
-    override fun getAllFavoritedUsers(): Flow<List<UserDetail>> = flow {
-        val result = favoritedUserDAO.getAllFavoritedUsers().mapNotNull {
-            userDetailConverter.mapFromEntity(it)
+    override fun getAllFavoritedUsers(): Flow<List<UserDetail>> =
+        favoritedUserDAO.getAllFavoritedUsers().mapNotNull {
+            userDetailConverter.mapFromEntityList(it)
         }
-        emit(result)
-    }
 
     override fun removeFavoritedUser(remoteId: Long): Flow<Boolean> = flow {
         favoritedUserDAO.removeFavoritedUser(remoteId)

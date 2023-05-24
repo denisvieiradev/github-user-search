@@ -15,4 +15,5 @@
     <dimen name="circular_progress_loading_box">70dp</dimen>
     <dimen name="user_profile_image_size">90dp</dimen>
     <dimen name="favorite_icon_size">16dp</dimen>
+    <dimen name="error_icon_size">64dp</dimen>
 </resources>

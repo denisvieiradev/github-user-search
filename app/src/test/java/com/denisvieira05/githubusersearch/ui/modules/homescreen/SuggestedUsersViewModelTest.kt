@@ -6,6 +6,7 @@ import com.denisvieira05.githubusersearch.domain.model.SuggestedUser
 import com.denisvieira05.githubusersearch.domain.model.UserDetail
 import com.denisvieira05.githubusersearch.domain.usecases.GetSuggestedUsersUseCase
 import com.denisvieira05.githubusersearch.ui.modules.suggestedusersscreen.SuggestedUsersScreenViewModel
+import com.denisvieira05.githubusersearch.ui.modules.userdetailscreen.model.UserDetailUIState
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -35,11 +36,11 @@ class SuggestedUsersViewModelTest {
 
             val actual = viewModel.uiState.value
 
-            assertThat(actual.isLoading).isEqualTo(true)
+            assertThat(actual).isEqualTo(SuggestedUsersUIState.Loading)
         }
 
     @Test
-    fun `given fetchSuggestedUsers when occurs any error then should update uiState with isLoading false`() =
+    fun `given fetchSuggestedUsers when occurs any error then should update uiState with error state`() =
         runTest {
             coEvery { getSuggestedUsersUseCase.invoke() } throws Exception()
 
@@ -49,7 +50,7 @@ class SuggestedUsersViewModelTest {
 
             val actual = viewModel.uiState.value
 
-            assertThat(actual.isLoading).isEqualTo(false)
+            assertThat(actual).isEqualTo(SuggestedUsersUIState.Error)
         }
 
     @Test
@@ -63,7 +64,7 @@ class SuggestedUsersViewModelTest {
 
             val actual = viewModel.uiState.value
 
-            assertThat(actual.suggestedUsers).isEqualTo(fakeData)
+            assertThat(actual).isEqualTo(SuggestedUsersUIState.Loaded(fakeData))
         }
 
     @Test
@@ -78,7 +79,7 @@ class SuggestedUsersViewModelTest {
 
             val actual = viewModel.uiState.value
 
-            assertThat(actual.suggestedUsers).isEqualTo(expected)
+            assertThat(actual).isEqualTo(SuggestedUsersUIState.Loaded(expected))
         }
     }
 

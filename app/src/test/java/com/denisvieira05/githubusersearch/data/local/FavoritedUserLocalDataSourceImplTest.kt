@@ -4,48 +4,50 @@ import com.denisvieira05.githubusersearch.data.converters.UserDetailConverter
 import com.denisvieira05.githubusersearch.data.local.favoriteduser.FavoritedUserDAO
 import com.denisvieira05.githubusersearch.data.local.favoriteduser.FavoritedUserEntity
 import com.denisvieira05.githubusersearch.data.local.favoriteduser.FavoritedUserLocalDataSourceImpl
-import com.denisvieira05.githubusersearch.data.remote.user.responses.UserDetailResponse
 import com.denisvieira05.githubusersearch.domain.model.UserDetail
-import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
 
 @ExperimentalCoroutinesApi
-//@RunWith(JUnit4::class)
+@RunWith(JUnit4::class)
 class FavoritedUserLocalDataSourceImplTest {
 
-    private val daoMock = mockk<FavoritedUserDAO>(relaxed = true)
-    private val userDetailConverterMock = mockk<UserDetailConverter>(relaxed = true)
+    private lateinit var daoMock: FavoritedUserDAO
+    private lateinit var userDetailConverterMock : UserDetailConverter
 
-    private val dataSource =
-        FavoritedUserLocalDataSourceImpl(daoMock, userDetailConverterMock)
+    private lateinit var dataSource: FavoritedUserLocalDataSourceImpl
 
-    // TODO FIX TEST to verify daoMock call
+    @Before
+    fun before() {
+        daoMock = mockk(relaxed = true)
+        userDetailConverterMock = mockk(relaxed = true)
+        dataSource = FavoritedUserLocalDataSourceImpl(daoMock, userDetailConverterMock)
+    }
+
+    @Test
+    fun `given getAllFavoritedUsers from dataSource then should call getAllFavoritedUsers from dao`() =
+        runTest {
+            dataSource.getAllFavoritedUsers()
+
+            coVerify(exactly = 1) { daoMock.getAllFavoritedUsers() }
+        }
+
+    // TODO FIX TEST to verify userDetailConverterMock call
 //    @Test
-//    fun `given getAllFavoritedUsers from dataSource then should call getAllFavoritedUsers from dao`() = runTest {
-//        every { userDetailConverterMock.mapFromEntity(fakeFavoritedUserEntity) } returns fakeUserDetail
+//    fun `given getAllFavoritedUsers from dataSource then should call mapFromEntityList from converter`() = runTest {
+////        every { userDetailConverterMock.mapFromEntityList(fakeFavoriteUserEntityList) } returns fakeUserDetailList
+////        coEvery { daoMock.getAllFavoritedUsers() } returns flowOf(fakeFavoriteUserEntityList)
 //
 //        dataSource.getAllFavoritedUsers()
 //
-//        coVerify { daoMock.getAllFavoritedUsers() }
-//    }
-
-    // TODO FIX TEST to verify daoMock call
-//    @Test
-//    fun `given getAllFavoritedUsers from dataSource then should call mapFromEntity from converter`() = runTest {
-//        every { userDetailConverterMock.mapFromEntity(fakeFavoritedUserEntity) } returns fakeUserDetail
-//        dataSource.getAllFavoritedUsers()
-//
-//        coVerify { userDetailConverterMock.mapFromEntity(any()) }
+//        coVerify (exactly = 1) { userDetailConverterMock.mapFromEntityList(any()) }
 //    }
 
     private val fakeFavoritedUserEntity = FavoritedUserEntity(
@@ -63,6 +65,10 @@ class FavoritedUserLocalDataSourceImplTest {
         twitterUsername = "3123",
     )
 
+    private val fakeFavoriteUserEntityList = listOf(
+        fakeFavoritedUserEntity,
+        fakeFavoritedUserEntity,
+    )
     private val fakeUserDetail = UserDetail(
         id = 12312,
         completeName = "Name",
@@ -75,5 +81,10 @@ class FavoritedUserLocalDataSourceImplTest {
         blog = "blog.com",
         bio = "3123",
         twitterUsername = "3123",
+    )
+
+    private val fakeUserDetailList = listOf(
+        fakeUserDetail,
+        fakeUserDetail,
     )
 }
