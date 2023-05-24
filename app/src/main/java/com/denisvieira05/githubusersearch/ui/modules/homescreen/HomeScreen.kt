@@ -76,10 +76,10 @@ fun HomeScreen(
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.normal_space_size)))
 
         when (uiState) {
-            HomeUIState.Loading -> CircularProgressLoading(size = dimensionResource(id = R.dimen.circular_progress_loading_box))
-            HomeUIState.Error -> ErrorContent()
-            is HomeUIState.Loaded -> SuggestedUserList(
-                (uiState as HomeUIState.Loaded).suggestedUsers,
+            SuggestedUsersUIState.Loading -> CircularProgressLoading(size = dimensionResource(id = R.dimen.circular_progress_loading_box))
+            SuggestedUsersUIState.Error -> ErrorContent()
+            is SuggestedUsersUIState.Loaded -> SuggestedUserList(
+                (uiState as SuggestedUsersUIState.Loaded).suggestedUsers,
                 onPressUserItem = { userName ->
                     navigateToUserDetail(userName)
                 },

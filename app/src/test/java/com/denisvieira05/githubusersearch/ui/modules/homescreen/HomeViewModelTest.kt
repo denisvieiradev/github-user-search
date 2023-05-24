@@ -35,7 +35,7 @@ class HomeViewModelTest {
 
             val actual = viewModel.uiState.value
 
-            assertThat(actual).isEqualTo(HomeUIState.Loading)
+            assertThat(actual).isEqualTo(SuggestedUsersUIState.Loading)
         }
 
 
@@ -48,7 +48,7 @@ class HomeViewModelTest {
 
             val actual = viewModel.uiState.value
 
-            assertThat(actual).isEqualTo(HomeUIState.Error)
+            assertThat(actual).isEqualTo(SuggestedUsersUIState.Error)
         }
 
     @Test
@@ -60,7 +60,7 @@ class HomeViewModelTest {
 
             val actual = viewModel.uiState.value
 
-            assertThat(actual).isEqualTo(HomeUIState.Loaded(fakeData))
+            assertThat(actual).isEqualTo(SuggestedUsersUIState.Loaded(fakeData))
         }
 
     @Test
@@ -73,7 +73,7 @@ class HomeViewModelTest {
 
             val actual = viewModel.uiState.value
 
-            assertThat(actual).isEqualTo(HomeUIState.Loaded(emptyList()))
+            assertThat(actual).isEqualTo(SuggestedUsersUIState.Loaded(emptyList()))
         }
     }
 

@@ -5,6 +5,7 @@ import com.denisvieira05.githubusersearch.CoroutineTestRule
 import com.denisvieira05.githubusersearch.domain.model.SuggestedUser
 import com.denisvieira05.githubusersearch.domain.model.UserDetail
 import com.denisvieira05.githubusersearch.domain.usecases.GetFavoritedUsersUseCase
+import com.denisvieira05.githubusersearch.ui.modules.favoritedusers.FavoritedUsersScreenUIState
 import com.denisvieira05.githubusersearch.ui.modules.favoritedusers.FavoritedUsersScreenViewModel
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
@@ -35,11 +36,11 @@ class FavoritedUsersViewModelTest {
 
             val actual = viewModel.uiState.value
 
-            assertThat(actual.isLoading).isEqualTo(true)
+            assertThat(actual).isEqualTo(FavoritedUsersScreenUIState.Loading)
         }
 
     @Test
-    fun `given fetchFavoritedUsers when occurs any error then should update uiState with isLoading false`() =
+    fun `given fetchFavoritedUsers when occurs any error then should update uiState with Error state`() =
         runTest {
             coEvery { getFavoritedUsersUseCase.invoke() } throws Exception()
 
@@ -49,7 +50,7 @@ class FavoritedUsersViewModelTest {
 
             val actual = viewModel.uiState.value
 
-            assertThat(actual.isLoading).isEqualTo(false)
+            assertThat(actual).isEqualTo(FavoritedUsersScreenUIState.Error)
         }
 
     @Test
@@ -63,7 +64,7 @@ class FavoritedUsersViewModelTest {
 
             val actual = viewModel.uiState.value
 
-            assertThat(actual.favoritedUsers).isEqualTo(fakeData)
+            assertThat(actual).isEqualTo(FavoritedUsersScreenUIState.Loaded(fakeData))
         }
 
     @Test
@@ -78,7 +79,7 @@ class FavoritedUsersViewModelTest {
 
             val actual = viewModel.uiState.value
 
-            assertThat(actual.favoritedUsers).isEqualTo(expected)
+            assertThat(actual).isEqualTo(FavoritedUsersScreenUIState.Loaded(expected))
         }
     }
 

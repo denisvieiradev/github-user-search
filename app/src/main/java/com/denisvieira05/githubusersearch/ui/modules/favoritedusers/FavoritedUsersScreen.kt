@@ -12,7 +12,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.denisvieira05.githubusersearch.R
 import com.denisvieira05.githubusersearch.ui.components.AppTopBar
 import com.denisvieira05.githubusersearch.ui.components.CircularProgressLoading
+import com.denisvieira05.githubusersearch.ui.components.ErrorContent
+import com.denisvieira05.githubusersearch.ui.modules.favoritedusers.FavoritedUsersScreenUIState.Loaded
+import com.denisvieira05.githubusersearch.ui.modules.favoritedusers.FavoritedUsersScreenUIState.Loading
 import com.denisvieira05.githubusersearch.ui.modules.favoritedusers.components.favoritedUsersLazyGrid
+import com.denisvieira05.githubusersearch.ui.modules.homescreen.SuggestedUsersUIState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,20 +52,28 @@ fun FavoritedUsersScreen(
             horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.normal_space_size)),
             columns = GridCells.Fixed(2),
         ) {
-            if (uiState.isLoading) {
-                item {
-                    CircularProgressLoading(
-                        size = dimensionResource(id = R.dimen.circular_progress_loading_box)
-                    )
-                }
-            }
-            if (uiState.favoritedUsers != null) {
-                favoritedUsersLazyGrid(uiState.favoritedUsers!!) { userName ->
-                    navigateToUserDetail(userName)
-                }
-            }
-        }
-    }
 
+            when (uiState) {
+                Loading -> {
+                    item {
+                        CircularProgressLoading(
+                            size = dimensionResource(id = R.dimen.circular_progress_loading_box)
+                        )
+                    }
+                }
+
+                is Error -> item { ErrorContent() }
+                is Loaded -> {
+                    favoritedUsersLazyGrid((uiState as Loaded).favoritedUsers) { userName ->
+                        navigateToUserDetail(userName)
+                    }
+                }
+
+                else -> {}
+            }
+
+        }
+
+    }
 }
 

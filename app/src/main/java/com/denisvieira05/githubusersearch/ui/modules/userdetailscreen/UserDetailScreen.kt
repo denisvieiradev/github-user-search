@@ -2,6 +2,7 @@ package com.denisvieira05.githubusersearch.ui.modules.userdetailscreen
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,15 +15,18 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.denisvieira05.githubusersearch.R
 import com.denisvieira05.githubusersearch.ui.components.AppTopBar
 import com.denisvieira05.githubusersearch.ui.components.CircularProgressLoading
+import com.denisvieira05.githubusersearch.ui.components.ErrorContent
 import com.denisvieira05.githubusersearch.ui.main.rememberMainComposableAppState
 import com.denisvieira05.githubusersearch.ui.modules.userdetailscreen.components.UserDetailHeader
 import com.denisvieira05.githubusersearch.ui.modules.userdetailscreen.components.UserRepositoriesList
+import com.denisvieira05.githubusersearch.ui.modules.userdetailscreen.model.RepositoriesUIState
+import com.denisvieira05.githubusersearch.ui.modules.userdetailscreen.model.UserDetailUIState
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -32,7 +36,9 @@ fun UserDetailScreen(
     viewModel: UserDetailViewModel = hiltViewModel(),
 ) {
 
-    val uiState by viewModel.uiState.collectAsState()
+    val repositoriesUiState by viewModel.repositoriesUiState.collectAsState()
+    val userDetailUiState by viewModel.userDetailUiState.collectAsState()
+    val isFavoriteUiState by viewModel.isFavoriteUiState.collectAsState()
     val context = rememberMainComposableAppState().weakContext.get()
 
     LaunchedEffect(key1 = true, block = {
@@ -47,11 +53,11 @@ fun UserDetailScreen(
                     navigateToBack()
                 },
                 actions = {
-                    if (uiState.isFavoritedUser != null) {
+                    if (isFavoriteUiState != null) {
                         IconButton(onClick = {
                             viewModel.toggleFavoritedUser()
-                        } ) {
-                            if(uiState.isFavoritedUser!!) {
+                        }) {
+                            if (isFavoriteUiState!!) {
                                 Icon(Icons.Filled.Favorite, null)
                             } else {
                                 Icon(Icons.Filled.FavoriteBorder, null)
@@ -77,45 +83,53 @@ fun UserDetailScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             item {
-                if (uiState.isLoadingUser) {
-                    CircularProgressLoading(
-                        size = dimensionResource(id = R.dimen.circular_progress_loading_box)
-                    )
+                when (userDetailUiState) {
+                    UserDetailUIState.Loading -> {
+                        CircularProgressLoading(
+                            size = dimensionResource(id = R.dimen.circular_progress_loading_box)
+                        )
+                    }
+
+                    UserDetailUIState.Error -> ErrorContent()
+                    is UserDetailUIState.Loaded -> {
+                        val user = (userDetailUiState as UserDetailUIState.Loaded).user
+                        UserDetailHeader(user)
+                    }
+
+                    else -> {}
                 }
             }
 
-            item {
-                if (uiState.user != null) {
-                    UserDetailHeader(uiState.user!!)
+            when (repositoriesUiState) {
+                RepositoriesUIState.Loading -> {
+                    item {
+                        CircularProgressLoading(
+                            size = dimensionResource(id = R.dimen.circular_progress_loading_box)
+                        )
+                    }
                 }
-            }
 
-            item {
-                if (uiState.isLoadingRepositories) {
-                    CircularProgressLoading(
-                        size = dimensionResource(id = R.dimen.circular_progress_loading_box)
-                    )
+                RepositoriesUIState.Error -> item { ErrorContent() }
+                is RepositoriesUIState.Loaded -> {
+                    val repositories =
+                        (repositoriesUiState as RepositoriesUIState.Loaded).repositories
+                    UserRepositoriesList(
+                        repositories = repositories
+                    ) { userUrl ->
+                        openUserRepositoryOnBrowser(userUrl, context)
+                    }
                 }
-            }
 
-            UserRepositoriesList(
-                repositories = uiState.repositories
-            ) {
-                openUserRepositoryOnBrowser()
+                else -> {}
             }
-
-//            if (snackbarVisibleState) {
-//                Snackbar(
-//                    modifier = Modifier.padding(8.dp)
-//                ) { Text(text = "This is a snackbar!") }
-//            }
         }
     }
 
 }
 
-fun openUserRepositoryOnBrowser() {
-
+fun openUserRepositoryOnBrowser(userUrl: String, context: Context?) {
+    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(userUrl))
+    context?.let { startActivity(it, browserIntent, Bundle()) }
 }
 
 fun shareUser(userName: String?, context: Context) {
