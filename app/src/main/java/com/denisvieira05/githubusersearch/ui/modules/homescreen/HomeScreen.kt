@@ -23,8 +23,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.denisvieira05.githubusersearch.R
+import com.denisvieira05.githubusersearch.domain.model.SuggestedUser
 import com.denisvieira05.githubusersearch.ui.components.CircularProgressLoading
 import com.denisvieira05.githubusersearch.ui.components.ErrorContent
 import com.denisvieira05.githubusersearch.ui.modules.homescreen.components.SuggestedUserList
@@ -39,12 +41,30 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
 
-    val (searchText, setSearchText) = rememberSaveable { mutableStateOf("") }
     val uiState by viewModel.uiState.collectAsState()
 
     LaunchedEffect(key1 = true, block = {
         viewModel.fetchSuggestedUsers()
     })
+
+    HomeContent(
+        uiState,
+        navigateToUserDetail,
+        navigateToSuggestedUsers,
+        navigateToFavoritedUser
+    )
+
+}
+
+@Composable
+fun HomeContent(
+    uiState: SuggestedUsersUIState?,
+    navigateToUserDetail: (userName: String) -> Unit,
+    navigateToSuggestedUsers: () -> Unit,
+    navigateToFavoritedUser: () -> Unit
+) {
+    val (searchText, setSearchText) = rememberSaveable { mutableStateOf("") }
+
 
     Column(
         modifier = Modifier
@@ -79,7 +99,7 @@ fun HomeScreen(
             SuggestedUsersUIState.Loading -> CircularProgressLoading(size = dimensionResource(id = R.dimen.circular_progress_loading_box))
             SuggestedUsersUIState.Error -> ErrorContent()
             is SuggestedUsersUIState.Loaded -> SuggestedUserList(
-                (uiState as SuggestedUsersUIState.Loaded).suggestedUsers,
+                uiState.suggestedUsers,
                 onPressUserItem = { userName ->
                     navigateToUserDetail(userName)
                 },
@@ -87,7 +107,39 @@ fun HomeScreen(
                     navigateToSuggestedUsers()
                 }
             )
+
             else -> CircularProgressLoading(size = dimensionResource(id = R.dimen.circular_progress_loading_box))
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun HomeScreenPreview() {
+
+    val list = listOf(
+        SuggestedUser(
+            id = 1,
+            userName = "mojombo",
+            avatarUrl = "https://avatars.githubusercontent.com/u/1?v=4"
+        ),
+        SuggestedUser(
+            id = 2,
+            userName = "defunkt",
+            avatarUrl = "https://avatars.githubusercontent.com/u/2?v=4"
+        ),
+        SuggestedUser(
+            id = 1,
+            userName = "pjhyett",
+            avatarUrl = "https://avatars.githubusercontent.com/u/3?v=4"
+        )
+    )
+    val uiState = SuggestedUsersUIState.Loaded(list)
+
+    HomeContent(
+        uiState = uiState,
+        navigateToUserDetail = {},
+        navigateToSuggestedUsers = {},
+        navigateToFavoritedUser = { }
+    )
 }

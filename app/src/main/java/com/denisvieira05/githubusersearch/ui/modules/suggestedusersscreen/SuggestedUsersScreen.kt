@@ -8,8 +8,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.denisvieira05.githubusersearch.R
+import com.denisvieira05.githubusersearch.domain.model.SuggestedUser
 import com.denisvieira05.githubusersearch.ui.components.AppTopBar
 import com.denisvieira05.githubusersearch.ui.components.CircularProgressLoading
 import com.denisvieira05.githubusersearch.ui.modules.homescreen.SuggestedUsersUIState
@@ -28,6 +30,21 @@ fun SuggestedUsersScreen(
         viewModel.fetchSuggestedUsers()
     })
 
+    SuggestedUsersContent(
+        navigateToUserDetail,
+        navigateToBack,
+        uiState
+    )
+
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SuggestedUsersContent(
+    navigateToUserDetail: (userName: String) -> Unit,
+    navigateToBack: () -> Unit,
+    uiState: SuggestedUsersUIState?
+) {
     Scaffold(
         topBar = {
             AppTopBar(
@@ -59,7 +76,7 @@ fun SuggestedUsersScreen(
                 }
 
                 is SuggestedUsersUIState.Loaded -> {
-                    suggestedUsersLazyGrid((uiState as SuggestedUsersUIState.Loaded).suggestedUsers) { userName ->
+                    suggestedUsersLazyGrid(uiState.suggestedUsers) { userName ->
                         navigateToUserDetail(userName)
                     }
                 }
@@ -68,6 +85,35 @@ fun SuggestedUsersScreen(
             }
         }
     }
+}
 
+@Preview(showBackground = true)
+@Composable
+fun SuggestedUsersPreview() {
+    val list = listOf(
+        SuggestedUser(
+            id = 1,
+            userName = "mojombo",
+            avatarUrl = "https://avatars.githubusercontent.com/u/1?v=4"
+        ),
+        SuggestedUser(
+            id = 2,
+            userName = "defunkt",
+            avatarUrl = "https://avatars.githubusercontent.com/u/2?v=4"
+        ),
+        SuggestedUser(
+            id = 1,
+            userName = "pjhyett",
+            avatarUrl = "https://avatars.githubusercontent.com/u/3?v=4"
+        )
+    )
+
+    val uiState = SuggestedUsersUIState.Loaded(list)
+
+    SuggestedUsersContent(
+        navigateToUserDetail = {},
+        navigateToBack = { },
+        uiState = uiState
+    )
 }
 
