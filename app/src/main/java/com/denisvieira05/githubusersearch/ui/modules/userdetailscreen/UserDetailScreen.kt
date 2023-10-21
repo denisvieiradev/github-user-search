@@ -15,9 +15,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.denisvieira05.githubusersearch.R
+import com.denisvieira05.githubusersearch.domain.model.Repository
+import com.denisvieira05.githubusersearch.domain.model.UserDetail
 import com.denisvieira05.githubusersearch.ui.components.AppTopBar
 import com.denisvieira05.githubusersearch.ui.components.CircularProgressLoading
 import com.denisvieira05.githubusersearch.ui.components.ErrorContent
@@ -28,7 +31,6 @@ import com.denisvieira05.githubusersearch.ui.modules.userdetailscreen.model.Repo
 import com.denisvieira05.githubusersearch.ui.modules.userdetailscreen.model.UserDetailUIState
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserDetailScreen(
     navigateToBack: () -> Unit,
@@ -39,11 +41,34 @@ fun UserDetailScreen(
     val repositoriesUiState by viewModel.repositoriesUiState.collectAsState()
     val userDetailUiState by viewModel.userDetailUiState.collectAsState()
     val isFavoriteUiState by viewModel.isFavoriteUiState.collectAsState()
-    val context = rememberMainComposableAppState().weakContext.get()
 
     LaunchedEffect(key1 = true, block = {
         viewModel.fetchData()
     })
+
+    UserDetailScreenContent(
+        navigateToBack,
+        userName,
+        repositoriesUiState,
+        userDetailUiState,
+        isFavoriteUiState,
+    ) {
+        viewModel.toggleFavoritedUser()
+    }
+
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun UserDetailScreenContent(
+    navigateToBack: () -> Unit,
+    userName: String?,
+    repositoriesUiState: RepositoriesUIState?,
+    userDetailUiState: UserDetailUIState?,
+    isFavoriteUiState: Boolean?,
+    onToggleFavoritedUser: () -> Unit
+) {
+    val context = rememberMainComposableAppState().weakContext.get()
 
     Scaffold(
         topBar = {
@@ -55,9 +80,9 @@ fun UserDetailScreen(
                 actions = {
                     if (isFavoriteUiState != null) {
                         IconButton(onClick = {
-                            viewModel.toggleFavoritedUser()
+                            onToggleFavoritedUser()
                         }) {
-                            if (isFavoriteUiState!!) {
+                            if (isFavoriteUiState) {
                                 Icon(Icons.Filled.Favorite, null)
                             } else {
                                 Icon(Icons.Filled.FavoriteBorder, null)
@@ -92,7 +117,7 @@ fun UserDetailScreen(
 
                     UserDetailUIState.Error -> ErrorContent()
                     is UserDetailUIState.Loaded -> {
-                        val user = (userDetailUiState as UserDetailUIState.Loaded).user
+                        val user = userDetailUiState.user
                         UserDetailHeader(user)
                     }
 
@@ -112,7 +137,7 @@ fun UserDetailScreen(
                 RepositoriesUIState.Error -> item { ErrorContent() }
                 is RepositoriesUIState.Loaded -> {
                     val repositories =
-                        (repositoriesUiState as RepositoriesUIState.Loaded).repositories
+                        repositoriesUiState.repositories
                     UserRepositoriesList(
                         repositories = repositories
                     ) { userUrl ->
@@ -124,7 +149,50 @@ fun UserDetailScreen(
             }
         }
     }
+}
 
+@Preview(showBackground = true)
+@Composable
+fun UserDetailScreenPreview() {
+    val repositoryUIState = RepositoriesUIState.Loaded(
+        listOf(
+            Repository(
+                id = 1L,
+                name = "repository 1",
+                description = "description 1",
+                htmlUrl = "html 1",
+                forks = 1,
+                language = "pt-BR",
+                stars = 20L
+            )
+        )
+    )
+
+    val userDetailUiState = UserDetailUIState.Loaded(
+        UserDetail(
+            id = 12312,
+            completeName = "Name",
+            userName = "repository description",
+            avatarUrl = "",
+            htmlUrl = "",
+            followersCount = 123,
+            followingCount = 123,
+            repositoriesCount = 123,
+            blog = "",
+            bio = "3123",
+            twitterUsername = "3123",
+        )
+    )
+
+    UserDetailScreenContent(
+        navigateToBack = { /*TODO*/ },
+        userName = "username 1",
+        repositoriesUiState = repositoryUIState,
+        userDetailUiState = userDetailUiState,
+        isFavoriteUiState = true
+    ) {
+
+    }
 }
 
 fun openUserRepositoryOnBrowser(userUrl: String, context: Context?) {
